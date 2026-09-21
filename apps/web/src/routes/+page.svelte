@@ -6,8 +6,18 @@
 	/>
 </svelte:head>
 
-<h1>Welcome to SvelteKit</h1>
-<p>
-	Visit
-	<a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-</p>
+<section class="flex h-screen flex-col items-center justify-center gap-8">
+	<h1 class="text-center text-lg">Open Artwork</h1>
+
+	<figure class="mx-auto">
+		<blockquote>
+			<p>“Adventure is worthwhile in itself.”</p>
+		</blockquote>
+		<figcaption class="text-center italic">— Amelia Earhart</figcaption>
+	</figure>
+
+	<ul class="flex flex-col text-center">
+		<li><a href="https://swe.cd" class="hover:underline">Swe.cd</a></li>
+		<li><a href="https://github.com/cdom27/open-artwork" class="hover:underline">Repository</a></li>
+	</ul>
+</section>
