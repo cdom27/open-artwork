@@ -1,1 +1,6 @@
+@import url('/fonts/fonts.css');
 @import 'tailwindcss';
+
+@theme {
+	--font-sans: 'M PLUS 1', sans-serif;
+}
