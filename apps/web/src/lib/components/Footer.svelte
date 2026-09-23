@@ -33,11 +33,13 @@
 					<li class="text-charcoal-600">{category.name}</li>
 
 					{#each category.links as link, i}
-						<li>
+						<li
+							style="--i: {i + 1}"
+							class="underline-offset-4 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+						>
 							<a
 								href={link.href}
-								class="translate-y-5 underline decoration-bone-100 decoration-2 underline-offset-4 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 hover:decoration-charcoal-400"
-								style="--i: {i + 1}"
+								class="translate-y-5 underline decoration-bone-100 decoration-2 transition-all duration-250 hover:decoration-charcoal-400"
 								>{link.name}
 							</a>
 						</li>
@@ -56,7 +58,7 @@
 					href="https://swe.cd"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="underline decoration-bone-100 decoration-2 underline-offset-4 hover:decoration-charcoal-400"
+					class="underline decoration-bone-100 decoration-2 underline-offset-4 transition-all duration-250 hover:decoration-charcoal-400"
 					>swe.cd</a
 				>
 			</p>
