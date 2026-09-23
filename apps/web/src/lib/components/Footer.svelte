@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { footerLinks } from '$lib/data/nav-links';
 	import { inView } from '$lib/actions/in-view';
+
+	const date = new Date();
+	const year = date.getFullYear();
 </script>
 
 <footer
@@ -67,7 +70,7 @@
 				style="--i: 5"
 				class="translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
 			>
-				© 2026 Open Artwork
+				© {year} Open Artwork
 			</p>
 		</div>
 	</div>
