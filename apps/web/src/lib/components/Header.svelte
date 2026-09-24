@@ -3,13 +3,19 @@
 	import { headerLinks } from '$lib/data/nav-links';
 	import Button from './Button.svelte';
 	import Link from './Link.svelte';
+	import Logo from '$lib/assets/favicon.svg';
 
 	let open = $state(false);
 </script>
 
 <header class="relative p-2 sm:px-10 sm:py-5 md:px-15">
 	<div class="flex items-center justify-between">
-		<a href="/" onclick={() => (open = false)}>Open Artwork</a>
+		<a
+			href="/"
+			onclick={() => (open = false)}
+			class="translate-color flex items-center gap-2 decoration-bone-50 decoration-2 underline-offset-4 duration-250 hover:underline hover:decoration-charcoal-400 active:decoration-charcoal-600"
+			><img src={Logo} alt="Open Artwork" /><span class="text-xl">Open Artwork</span></a
+		>
 
 		<div class="bg-bone-50">
 			<Button
