@@ -11,6 +11,6 @@
 
 <Header />
 
-<main>{@render children()}</main>
+<main class="min-h-screen scroll-smooth">{@render children()}</main>
 
 <Footer />
