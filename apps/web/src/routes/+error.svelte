@@ -1,4 +1,4 @@
-<section class="flex h-full flex-col items-center justify-center gap-8 p-4">
+<section class="flex h-full flex-col items-center justify-center gap-8 p-2 sm:p-10 md:p-15">
 	<h1 class="text-center text-lg">
 		<a href="/" class="hover:text-blue-600 hover:underline">Open Artwork</a>
 	</h1>
