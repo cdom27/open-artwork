@@ -11,9 +11,10 @@
 
 	let { variant = 'primary', children, cn = '', ...rest }: AnchorProps = $props();
 
-	const variantClass = variants[variant];
-	const classes =
-		`${variantClass} transition-all duration-300 cursor-pointer rounded-sm py-1.5 px-2.5 hover:rounded-lg active:rounded-xl ${cn}`.trim();
+	const variantClass = $derived(variants[variant]);
+	const classes = $derived(
+		`${variantClass} transition-all duration-300 cursor-pointer rounded-sm py-1.5 px-2.5 hover:rounded-lg active:rounded-xl self-start ${cn}`.trim()
+	);
 </script>
 
 <a class={classes} {...rest}>{@render children()}</a>

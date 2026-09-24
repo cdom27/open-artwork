@@ -13,7 +13,7 @@
 
 	const variantClass = $derived(variants[variant]);
 	const classes = $derived(
-		`${variantClass} transition-all duration-300 cursor-pointer rounded-sm py-1.5 px-2.5 hover:rounded-lg active:rounded-xl ${cn}`.trim()
+		`${variantClass} transition-all duration-300 cursor-pointer rounded-sm py-1.5 px-2.5 hover:rounded-lg active:rounded-xl self-start ${cn}`.trim()
 	);
 </script>
 
