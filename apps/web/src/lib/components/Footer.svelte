@@ -42,7 +42,7 @@
 						>
 							<a
 								href={link.href}
-								class="translate-y-5 underline decoration-bone-100 decoration-2 transition-all duration-250 hover:decoration-charcoal-400"
+								class="translate-y-5 underline decoration-bone-100 decoration-2 transition-all duration-250 hover:decoration-charcoal-400 active:decoration-charcoal-600"
 								>{link.name}
 							</a>
 						</li>
@@ -61,7 +61,7 @@
 					href="https://swe.cd"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="underline decoration-bone-100 decoration-2 underline-offset-4 transition-all duration-250 hover:decoration-charcoal-400"
+					class="underline decoration-bone-100 decoration-2 underline-offset-4 transition-all duration-250 hover:decoration-charcoal-400 active:decoration-charcoal-600"
 					>swe.cd</a
 				>
 			</p>
