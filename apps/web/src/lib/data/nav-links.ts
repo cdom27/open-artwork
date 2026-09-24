@@ -1,12 +1,15 @@
+export const headerLinks = [
+	{ name: 'Gallery', href: '/gallery', subLinks: null },
+	{ name: 'Timeline', href: '/timeline' },
+	{ name: 'Color Trends', href: '/color-trends' },
+	{ name: 'API', href: '/docs', subLinks: null },
+	{ name: 'About', href: '/about', subLinks: null }
+];
+
 export const footerLinks = [
 	{
 		name: 'Website',
-		links: [
-			{ name: 'Home', href: '/' },
-			{ name: 'Gallery', href: '/gallery' },
-			{ name: 'Timeline', href: '/timeline' },
-			{ name: 'Color Trends', href: '/color-trends' }
-		]
+		links: [{ name: 'Home', href: '/' }, ...headerLinks]
 	},
 	{
 		name: 'Support',
