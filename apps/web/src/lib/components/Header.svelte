@@ -21,11 +21,11 @@
 			<Button
 				variant={open ? 'outline' : 'tertiary'}
 				onclick={() => (open = !open)}
-				cn="md:hidden border border-bone-50">{open ? 'Close Menu' : 'Menu'}</Button
+				cn="lg:hidden border border-bone-50">{open ? 'Close Menu' : 'Menu'}</Button
 			>
 		</div>
 
-		<nav class="hidden md:flex">
+		<nav class="hidden lg:flex">
 			<ul class="flex gap-5.5">
 				{#each headerLinks as link}
 					<Link variant="tertiary" href={link.href} onclick={() => (open = false)}>{link.name}</Link
