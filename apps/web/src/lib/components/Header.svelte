@@ -18,7 +18,7 @@
 </script>
 
 <header>
-	<div class="relative z-10 p-2 sm:px-10 sm:py-5 md:px-15">
+	<div class="relative z-10 px-2 pt-5 pb-0 sm:px-10 md:px-15">
 		<div class="flex items-center justify-between">
 			<a
 				href="/"
