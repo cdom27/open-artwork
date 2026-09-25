@@ -1,5 +1,28 @@
-@import url('/fonts/fonts.css');
 @import 'tailwindcss';
+
+@font-face {
+	font-family: 'M PLUS 1';
+	src: url('/fonts/MPLUS1-Regular.woff2') format('woff2');
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'M PLUS 1';
+	src: url('/fonts/MPLUS1-Medium.woff2') format('woff2');
+	font-weight: 500;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'M PLUS 1';
+	src: url('/fonts/MPLUS1-SemiBold.woff2') format('woff2');
+	font-weight: 600;
+	font-style: normal;
+	font-display: block;
+}
 
 @theme {
 	--font-sans: 'M PLUS 1', sans-serif;
