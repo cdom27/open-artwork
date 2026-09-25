@@ -6,7 +6,7 @@ interface InViewOptions {
 }
 
 interface InViewAttributes {
-	'on:enterviewport'?: (e: CustomEvent<void>) => void;
+	onenterviewport?: (e: CustomEvent<void>) => void;
 }
 
 export const inView: Action<HTMLElement, InViewOptions | undefined, InViewAttributes> = (
