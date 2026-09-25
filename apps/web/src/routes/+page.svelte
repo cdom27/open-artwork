@@ -182,8 +182,8 @@
 	</div>
 
 	<div
-		class="group flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
-		use:inView
+		class="group flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 [--burst-animation-state:paused] group-[&.in-view]:[--burst-animation-state:running] sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
+		use:inView={{ once: false }}
 	>
 		<div
 			class="w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:mx-auto sm:size-80 lg:mx-0"

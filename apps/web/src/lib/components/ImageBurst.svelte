@@ -202,6 +202,7 @@
 		height: auto;
 		transform: translate(-50%, -50%);
 		animation: backdrop-float var(--backdrop-motion-duration) ease-in-out infinite alternate;
+		animation-play-state: var(--burst-animation-state, paused);
 		will-change: transform;
 	}
 
@@ -214,6 +215,7 @@
 		height: auto;
 		transform: translate(-50%, -50%) scale(1);
 		animation: burst-shrink var(--lifetime) cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
+		animation-play-state: var(--burst-animation-state, paused);
 		will-change: transform, opacity;
 	}
 
