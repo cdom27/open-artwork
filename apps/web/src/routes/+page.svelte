@@ -86,3 +86,35 @@
 		</ul>
 	</div>
 </section>
+
+<section
+	class="relative flex flex-col bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
+>
+	<div class="flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20">
+		<h3 class="text-charcoal-400">The problem</h3>
+
+		<ul class=" flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
+			<li>Scattered across institutions</li>
+			<li>Inconsistent metadata</li>
+			<li>No unified API</li>
+			<li>Paywalled access to public domain</li>
+			<li>Slow, clunky interfaces</li>
+		</ul>
+	</div>
+
+	<div
+		class="flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:rounded-l-sm"
+	>
+		<div class="aspect-square bg-sky-500 sm:size-80"></div>
+
+		<h3 class="text-charcoal-500">The solution</h3>
+
+		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
+			<li>One unified archive</li>
+			<li>Color & design resource</li>
+			<li>Sharp and intuitive gallery</li>
+			<li>Simple developer API</li>
+			<li>Clean, consistent metadata</li>
+		</ul>
+	</div>
+</section>
