@@ -261,10 +261,15 @@
 </section>
 
 <section
-	class="xl grid grid-cols-1 bg-charcoal-900 px-2 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
+	class="group grid grid-cols-1 bg-charcoal-900 px-2 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
+	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
-		<h2 class="text-4xl font-normal">Download the data</h2>
+		<h2
+			class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Download the data
+		</h2>
 
 		<Figure
 			cn="lg:hidden sm:h-150 sm:mx-auto"
@@ -281,30 +286,47 @@
 			}}
 		/>
 
-		<p>
+		<p
+			class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
 			Our dataset of public domain artwork metadata is available for anyone to use. Download the
 			full dataset as CSV from our GitHub repository. Images and media files themselves are not
 			included due to their size.
 		</p>
 
 		<div class="flex flex-col gap-2.5 pt-5.5 sm:flex-row sm:gap-4">
-			<Link variant="secondary" href="/gallery">Explore artworks</Link>
+			<Link
+				variant="secondary"
+				href="/gallery"
+				cn="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>Explore artworks</Link
+			>
 			<Link
 				variant="tertiary"
 				href="https://github.com/cdom27/open-artwork"
 				target="_blank"
-				rel="noopener noreferrer">View the data</Link
+				rel="noopener noreferrer"
+				cn="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>View the data</Link
 			>
 		</div>
 
 		<div class="flex flex-col gap-5.5 pt-10 sm:gap-5.5">
-			<h3 class="text-3xl font-normal">Notes for users</h3>
-			<p>
+			<h3
+				class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Notes for users
+			</h3>
+			<p
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
 				The collection is built from public-domain artworks and metadata made available through
 				open-access collections, APIs, and datasets. Open Artwork does not claim ownership of the
 				underlying artworks or source data.
 			</p>
-			<p>
+			<p
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
 				Rights information is provided by the source institution. We encourage users to credit the
 				appropriate institution and source for each image.
 			</p>
