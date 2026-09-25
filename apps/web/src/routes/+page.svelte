@@ -1,3 +1,8 @@
+<script>
+	import Figure from '$lib/components/Figure.svelte';
+	import Link from '$lib/components/Link.svelte';
+</script>
+
 <svelte:head>
 	<title>Open Artwork</title>
 	<meta
@@ -6,18 +11,35 @@
 	/>
 </svelte:head>
 
-<section class="flex h-screen flex-col items-center justify-center gap-8">
-	<h1 class="text-center text-lg">Open Artwork</h1>
+<section
+	class="grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3"
+>
+	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
+		<h1 class="text-5xl font-normal md:text-6xl">
+			Art for<br /> a more open<br /> internet
+		</h1>
 
-	<figure class="mx-auto">
-		<blockquote>
-			<p>“Adventure is worthwhile in itself.”</p>
-		</blockquote>
-		<figcaption class="text-center italic">— Amelia Earhart</figcaption>
-	</figure>
+		<Figure
+			cn="lg:hidden"
+			imgSrc="/images/samson-mocked-jan-steen-c1670.webp"
+			artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
+		/>
 
-	<ul class="flex flex-col text-center">
-		<li><a href="https://swe.cd" class="hover:underline">Swe.cd</a></li>
-		<li><a href="https://github.com/cdom27/open-artwork" class="hover:underline">Repository</a></li>
-	</ul>
+		<p>
+			Open Artwork is a growing archive of public domain artworks and metadata, with a clean
+			developer API and tools for exploring, remixing, and learning from the world&apos;s visual
+			culture.
+		</p>
+
+		<div class="flex flex-col gap-2.5 pt-5.5 sm:gap-4 xl:flex-row">
+			<Link variant="primary" href="/gallery">Explore artworks</Link>
+			<Link variant="tertiary" href="/docs">Read API docs</Link>
+		</div>
+	</div>
+
+	<Figure
+		cn="hidden lg:block lg:my-auto xl:col-span-2"
+		imgSrc="/images/samson-mocked-jan-steen-c1670.webp"
+		artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
+	/>
 </section>
