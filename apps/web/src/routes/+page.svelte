@@ -1,6 +1,17 @@
-<script>
+<script lang="ts">
 	import Figure from '$lib/components/Figure.svelte';
 	import Link from '$lib/components/Link.svelte';
+
+	const createRings = (
+		count: number,
+		{ startTop = 80, topStep = 10, startSize = 50, sizeStep = 35 } = {}
+	) =>
+		Array.from({ length: count }, (_, index) => ({
+			top: startTop - index * topStep,
+			size: startSize + index * sizeStep
+		}));
+
+	const rings = createRings(18);
 </script>
 
 <svelte:head>
@@ -42,4 +53,36 @@
 		imgSrc="/images/samson-mocked-jan-steen-c1670.webp"
 		artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
 	/>
+</section>
+
+<section
+	class="relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20"
+>
+	<div class="absolute inset-0 flex items-center justify-center">
+		{#each rings as ring}
+			<div
+				class="absolute rounded-full border-2 border-bone-100"
+				style={`top: ${ring.top}%; width: calc(${ring.size} * var(--spacing)); height: calc(${ring.size} * var(--spacing));`}
+			></div>
+		{/each}
+	</div>
+
+	<div class="relative z-10 flex flex-col gap-5.5 sm:gap-7.5">
+		<h2 class="text-center text-3xl font-normal lg:text-4xl">
+			Built from the world's<br /> largest open art collections
+		</h2>
+
+		<ul class="flex flex-col gap-5.5 sm:mx-auto sm:flex-row sm:gap-7.5 lg:gap-15">
+			<li>
+				<div class="flex flex-col items-center gap-1.5">
+					<span class="text-5xl">75k+</span><span>artworks</span>
+				</div>
+			</li>
+			<li>
+				<div class="flex flex-col items-center gap-1.5">
+					<span class="text-5xl">375k+</span><span>color palettes</span>
+				</div>
+			</li>
+		</ul>
+	</div>
 </section>
