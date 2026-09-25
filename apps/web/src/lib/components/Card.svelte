@@ -1,11 +1,9 @@
 <script lang="ts">
+	import type { HTMLImgAttributes } from 'svelte/elements';
 	import Link from './Link.svelte';
 
 	interface CardProps {
-		thumbnail: {
-			src: string;
-			alt: string;
-		};
+		thumbnail: HTMLImgAttributes;
 		title: string;
 		description: string;
 		link?: {
@@ -19,13 +17,29 @@
 </script>
 
 <div class="flex h-full grow flex-col gap-5.5">
-	<img src={thumbnail.src} alt={thumbnail.alt} class="rounded-sm" />
+	<img
+		{...thumbnail}
+		class="rounded-sm opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+	/>
 
-	<h3 class="text-3xl font-normal">{title}</h3>
+	<h3
+		class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+	>
+		{title}
+	</h3>
 
-	<p>{description}</p>
+	<p
+		class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+	>
+		{description}
+	</p>
 
 	{#if link}
-		<Link href={link.href} {variant} cn="mt-auto">{link.label}</Link>
+		<Link
+			href={link.href}
+			{variant}
+			cn="mt-auto translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>{link.label}</Link
+		>
 	{/if}
 </div>

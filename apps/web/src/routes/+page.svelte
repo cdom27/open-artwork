@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inView } from '$lib/actions/in-view';
 	import Card from '$lib/components/Card.svelte';
 	import Figure from '$lib/components/Figure.svelte';
 	import Link from '$lib/components/Link.svelte';
@@ -14,6 +15,28 @@
 		}));
 
 	const rings = createRings(18);
+
+	let artworksCount = $state(0);
+	let palettesCount = $state(0);
+
+	const animateCount = (target: number, update: (value: number) => void, duration = 1000) => {
+		const start = performance.now();
+
+		const tick = (now: number) => {
+			const progress = Math.min((now - start) / duration, 1);
+			const easedProgress = 1 - Math.pow(1 - progress, 3);
+			update(Math.round(target * easedProgress));
+
+			if (progress < 1) requestAnimationFrame(tick);
+		};
+
+		requestAnimationFrame(tick);
+	};
+
+	const startCounters = () => {
+		animateCount(75, (value) => (artworksCount = value));
+		animateCount(375, (value) => (palettesCount = value));
+	};
 </script>
 
 <svelte:head>
@@ -25,64 +48,89 @@
 </svelte:head>
 
 <section
-	class="grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
+	class="group grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
+	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
-		<h1 class="text-5xl font-normal md:text-6xl">
+		<h1
+			class="translate-y-5 text-5xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 md:text-6xl"
+		>
 			Art for<br /> a more open<br /> internet
 		</h1>
 
 		<Figure
-			cn="lg:hidden"
-			imgSrc="/images/samson-mocked-jan-steen-c1670.webp"
+			cn="lg:hidden opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+			img={{
+				src: '/images/samson-mocked-jan-steen-c1670.webp',
+				width: 1023,
+				height: 724,
+				loading: 'eager'
+			}}
 			artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
 		/>
 
-		<p>
+		<p
+			class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
 			Open Artwork is a growing archive of public domain artworks and metadata, with a clean
 			developer API and tools for exploring, remixing, and learning from the world&apos;s visual
 			culture.
 		</p>
 
-		<div class="flex flex-col gap-2.5 pt-5.5 sm:gap-4 xl:flex-row">
+		<div
+			class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 xl:flex-row"
+		>
 			<Link variant="primary" href="/gallery">Explore artworks</Link>
 			<Link variant="tertiary" href="/docs">Read API docs</Link>
 		</div>
 	</div>
 
 	<Figure
-		cn="hidden lg:block lg:my-auto xl:col-span-2"
-		imgSrc="/images/samson-mocked-jan-steen-c1670.webp"
+		cn="hidden lg:block lg:my-auto xl:col-span-2 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		img={{
+			src: '/images/samson-mocked-jan-steen-c1670.webp',
+			width: 1023,
+			height: 724,
+			loading: 'eager'
+		}}
 		artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
 	/>
 </section>
 
 <section
-	class="relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
+	class="group relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
+	use:inView
+	onenterviewport={startCounters}
 >
 	<div class="absolute inset-0 flex items-center justify-center">
-		{#each rings as ring}
+		{#each rings as ring, i}
 			<div
-				class="absolute rounded-full border-2 border-bone-100"
-				style={`top: ${ring.top}%; width: calc(${ring.size} * var(--spacing)); height: calc(${ring.size} * var(--spacing));`}
+				class="absolute rounded-full border-2 border-bone-100 opacity-0 transition-opacity delay-[calc(var(--i)*5ms)] duration-600 group-[&.in-view]:opacity-100"
+				style={`--i: ${i}; top: ${ring.top}%; width: calc(${ring.size} * var(--spacing)); height: calc(${ring.size} * var(--spacing));`}
 			></div>
 		{/each}
 	</div>
 
 	<div class="relative z-10 flex flex-col gap-5.5 sm:gap-7.5">
-		<h2 class="text-center text-3xl font-normal lg:text-4xl">
+		<h2
+			class="translate-y-5 text-center text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
+		>
 			Built from the world's<br /> largest open art collections
 		</h2>
 
 		<ul class="flex flex-col gap-5.5 sm:mx-auto sm:flex-row sm:gap-7.5 lg:gap-15">
 			<li>
-				<div class="flex flex-col items-center gap-1.5">
-					<span class="text-5xl">75k+</span><span>artworks</span>
+				<div
+					class="flex translate-y-5 flex-col items-center gap-1.5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					<span class="text-5xl">{artworksCount}k+</span><span>artworks</span>
 				</div>
 			</li>
 			<li>
-				<div class="flex flex-col items-center gap-1.5">
-					<span class="text-5xl">375k+</span><span>color palettes</span>
+				<div
+					class="flex translate-y-5 flex-col items-center gap-1.5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					<span class="text-5xl">{palettesCount}k+</span><span>color palettes</span>
 				</div>
 			</li>
 		</ul>
@@ -90,48 +138,117 @@
 </section>
 
 <section
-	class="relative flex flex-col bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
+	class="group relative flex flex-col overflow-clip bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
+	use:inView
 >
-	<div class="flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30">
-		<h2 class="text-charcoal-400">The problem</h2>
+	<div
+		class="group flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+		use:inView
+	>
+		<h2
+			class="translate-y-5 text-charcoal-400 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			The problem
+		</h2>
 
-		<ul class=" flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
-			<li>Scattered across institutions</li>
-			<li>Inconsistent metadata</li>
-			<li>No unified API</li>
-			<li>Paywalled access to public domain</li>
-			<li>Slow, clunky interfaces</li>
+		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Scattered across institutions
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Inconsistent metadata
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				No unified API
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-400 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Paywalled access to public domain
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-480 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Slow, clunky interfaces
+			</li>
 		</ul>
 	</div>
 
 	<div
-		class="flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:rounded-l-sm xl:p-25 2xl:p-30"
+		class="group flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
+		use:inView
 	>
-		<div class="aspect-square bg-sky-500 sm:size-80"></div>
+		<div
+			class="aspect-square bg-sky-500 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:size-80"
+		></div>
 
-		<h2 class="text-charcoal-500">The solution</h2>
+		<h2
+			class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			The solution
+		</h2>
 
 		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
-			<li>One unified archive</li>
-			<li>Color & design resource</li>
-			<li>Sharp and intuitive gallery</li>
-			<li>Simple developer API</li>
-			<li>Clean, consistent metadata</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				One unified archive
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Color & design resource
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Sharp and intuitive gallery
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-400 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Simple developer API
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-480 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Clean, consistent metadata
+			</li>
 		</ul>
 	</div>
 </section>
 
 <section
-	class="grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+	class="group grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
-		<h2 class="text-4xl font-normal">Other ways to explore</h2>
+		<h2
+			class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Other ways to explore
+		</h2>
 
-		<ul class="grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
+		<ul
+			class="group grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+			use:inView
+		>
 			{#each tools as tool}
 				<li>
 					<Card
-						thumbnail={{ src: tool.thumbnailSrc, alt: '' }}
+						thumbnail={{
+							src: tool.thumbnailSrc,
+							width: 1023,
+							height: 724,
+							alt: 'Placeholder image',
+							loading: 'lazy'
+						}}
 						title={tool.title}
 						description={tool.description}
 						link={tool.link}
@@ -151,7 +268,12 @@
 
 		<Figure
 			cn="lg:hidden sm:h-150 sm:mx-auto"
-			imgSrc="/images/bust-of-a-youth-francesco-mochi-1640.webp"
+			img={{
+				src: '/images/bust-of-a-youth-francesco-mochi-1640.webp',
+				width: 673,
+				height: 841,
+				loading: 'lazy'
+			}}
 			artwork={{
 				title: 'Bust of a Youth (perhaps Saint John the Baptist)',
 				artist: 'Francesco Mochi',
@@ -191,7 +313,12 @@
 
 	<Figure
 		cn="hidden lg:block h-full w-full"
-		imgSrc="/images/bust-of-a-youth-francesco-mochi-1640.webp"
+		img={{
+			src: '/images/bust-of-a-youth-francesco-mochi-1640.webp',
+			width: 673,
+			height: 841,
+			loading: 'lazy'
+		}}
 		artwork={{
 			title: 'Bust of a Youth (perhaps Saint John the Baptist)',
 			artist: 'Francesco Mochi',

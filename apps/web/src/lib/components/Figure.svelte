@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { HTMLImgAttributes } from 'svelte/elements';
+
 	interface FigureProps {
-		imgSrc: string;
+		img: HTMLImgAttributes;
 		artwork: {
 			title: string;
 			artist: string;
@@ -9,14 +11,14 @@
 		cn?: string;
 	}
 
-	let { imgSrc, artwork, cn = '' }: FigureProps = $props();
+	let { img, artwork, cn = '' }: FigureProps = $props();
 
 	const classes = $derived(`relative self-start ${cn}`.trim());
 </script>
 
 <figure class={classes}>
 	<img
-		src={imgSrc}
+		{...img}
 		alt={artwork.title + ' by ' + artwork.artist + ', ' + artwork.date}
 		class="size-full rounded-sm object-cover"
 	/>
