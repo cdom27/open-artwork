@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Card from '$lib/components/Card.svelte';
 	import Figure from '$lib/components/Figure.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import { tools } from '$lib/data/tools';
 
 	const createRings = (
 		count: number,
@@ -91,7 +93,7 @@
 	class="relative flex flex-col bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
 >
 	<div class="flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20">
-		<h3 class="text-charcoal-400">The problem</h3>
+		<h2 class="text-charcoal-400">The problem</h2>
 
 		<ul class=" flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
 			<li>Scattered across institutions</li>
@@ -107,7 +109,7 @@
 	>
 		<div class="aspect-square bg-sky-500 sm:size-80"></div>
 
-		<h3 class="text-charcoal-500">The solution</h3>
+		<h2 class="text-charcoal-500">The solution</h2>
 
 		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
 			<li>One unified archive</li>
@@ -115,6 +117,28 @@
 			<li>Sharp and intuitive gallery</li>
 			<li>Simple developer API</li>
 			<li>Clean, consistent metadata</li>
+		</ul>
+	</div>
+</section>
+
+<section class="grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:gap-20">
+	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
+		<h2 class="text-4xl font-normal">Other ways to explore</h2>
+
+		<ul
+			class="grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 xl:gap-20"
+		>
+			{#each tools as tool}
+				<li>
+					<Card
+						thumbnail={{ src: tool.thumbnailSrc, alt: '' }}
+						title={tool.title}
+						description={tool.description}
+						link={tool.link}
+						variant="primary"
+					/>
+				</li>
+			{/each}
 		</ul>
 	</div>
 </section>
