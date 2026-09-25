@@ -7,7 +7,7 @@
 </script>
 
 <footer
-	class="group grid grid-cols-1 gap-15 bg-bone-100 px-3 py-15 text-charcoal-900 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:items-center"
+	class="group grid grid-cols-1 gap-15 bg-bone-100 px-3 py-15 text-charcoal-900 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 xl:p-25 2xl:p-30"
 	use:inView
 >
 	<div
@@ -51,7 +51,7 @@
 			{/each}
 		</div>
 
-		<div class="flex flex-col gap-5.5 sm:flex-row sm:justify-between">
+		<div class="flex flex-col gap-5.5 sm:flex-row sm:justify-between 2xl:mt-auto">
 			<p
 				class="translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
 				style="--i: 5"

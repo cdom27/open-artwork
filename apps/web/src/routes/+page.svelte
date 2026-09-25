@@ -25,7 +25,7 @@
 </svelte:head>
 
 <section
-	class="grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3"
+	class="grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
 		<h1 class="text-5xl font-normal md:text-6xl">
@@ -58,7 +58,7 @@
 </section>
 
 <section
-	class="relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20"
+	class="relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
 >
 	<div class="absolute inset-0 flex items-center justify-center">
 		{#each rings as ring}
@@ -92,7 +92,7 @@
 <section
 	class="relative flex flex-col bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
 >
-	<div class="flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20">
+	<div class="flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30">
 		<h2 class="text-charcoal-400">The problem</h2>
 
 		<ul class=" flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
@@ -105,7 +105,7 @@
 	</div>
 
 	<div
-		class="flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:rounded-l-sm"
+		class="flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:rounded-l-sm xl:p-25 2xl:p-30"
 	>
 		<div class="aspect-square bg-sky-500 sm:size-80"></div>
 
@@ -121,13 +121,13 @@
 	</div>
 </section>
 
-<section class="grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:gap-20">
+<section
+	class="grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+>
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
 		<h2 class="text-4xl font-normal">Other ways to explore</h2>
 
-		<ul
-			class="grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 xl:gap-20"
-		>
+		<ul class="grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10">
 			{#each tools as tool}
 				<li>
 					<Card
@@ -144,7 +144,7 @@
 </section>
 
 <section
-	class="grid grid-cols-1 bg-charcoal-900 px-2 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 2xl:gap-100"
+	class="xl grid grid-cols-1 bg-charcoal-900 px-2 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
 		<h2 class="text-4xl font-normal">Download the data</h2>
