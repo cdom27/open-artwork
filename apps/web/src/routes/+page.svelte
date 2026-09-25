@@ -2,6 +2,7 @@
 	import { inView } from '$lib/actions/in-view';
 	import Card from '$lib/components/Card.svelte';
 	import Figure from '$lib/components/Figure.svelte';
+	import ImageBurst from '$lib/components/ImageBurst.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import { tools } from '$lib/data/tools';
 
@@ -185,8 +186,33 @@
 		use:inView
 	>
 		<div
-			class="aspect-square bg-sky-500 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:size-80"
-		></div>
+			class="w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:mx-auto sm:size-80 lg:mx-0"
+		>
+			<ImageBurst
+				images={[
+					'/images/repose-john-white-alexander-1895.webp',
+					'/images/2/image.webp',
+					'/images/3/image.webp',
+					'/images/4/image.webp',
+					'/images/5/image.webp',
+					'/images/6/image.webp',
+					'/images/7/image.webp',
+					'/images/8/image.webp',
+					'/images/9/image.webp',
+					'/images/10/image.webp',
+					'/images/11/image.webp',
+					'/images/12/image.webp',
+					'/images/13/image.webp',
+					'/images/14/image.webp',
+					'/images/15/image.webp',
+					'/images/16/image.webp',
+					'/images/17/image.webp',
+					'/images/18/image.webp',
+					'/images/19/image.webp',
+					'/images/20/image.webp'
+				]}
+			/>
+		</div>
 
 		<h2
 			class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
