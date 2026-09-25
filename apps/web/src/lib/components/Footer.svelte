@@ -18,7 +18,7 @@
 			>Open Artwork</span
 		>
 
-		<div class="absolute inset-0 bg-linear-to-t via-charcoal-900/20 to-charcoal-900/0"></div>
+		<div class="absolute inset-0 bg-linear-to-t from-charcoal-900/20 to-charcoal-900/0"></div>
 
 		<div class="flex size-full">
 			<img
