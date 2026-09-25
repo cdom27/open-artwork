@@ -16,6 +16,7 @@
 }
 
 :root {
+	font-size: 0.875rem;
 	font-weight: 500;
 	background-color: var(--color-bone-50);
 	color: var(--color-charcoal-900);
