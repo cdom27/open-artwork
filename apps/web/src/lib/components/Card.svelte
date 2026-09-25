@@ -35,11 +35,10 @@
 	</p>
 
 	{#if link}
-		<Link
-			href={link.href}
-			{variant}
-			cn="mt-auto translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
-			>{link.label}</Link
+		<div
+			class="mt-auto flex translate-y-5 flex-col gap-2.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
 		>
+			<Link href={link.href} {variant}>{link.label}</Link>
+		</div>
 	{/if}
 </div>

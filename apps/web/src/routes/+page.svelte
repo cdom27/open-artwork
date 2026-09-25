@@ -294,20 +294,15 @@
 			included due to their size.
 		</p>
 
-		<div class="flex flex-col gap-2.5 pt-5.5 sm:flex-row sm:gap-4">
-			<Link
-				variant="secondary"
-				href="/gallery"
-				cn="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
-				>Explore artworks</Link
-			>
+		<div
+			class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
+		>
+			<Link variant="secondary" href="/gallery">Explore artworks</Link>
 			<Link
 				variant="tertiary"
 				href="https://github.com/cdom27/open-artwork"
 				target="_blank"
-				rel="noopener noreferrer"
-				cn="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
-				>View the data</Link
+				rel="noopener noreferrer">View the data</Link
 			>
 		</div>
 
