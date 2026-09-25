@@ -252,7 +252,7 @@
 						title={tool.title}
 						description={tool.description}
 						link={tool.link}
-						variant="primary"
+						variant={tool.link.href === '#project-submission' ? 'tertiary' : 'primary'}
 					/>
 				</li>
 			{/each}
