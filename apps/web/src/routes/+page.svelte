@@ -6,7 +6,14 @@
 	import Link from '$lib/components/Link.svelte';
 	import Marquee from '$lib/components/Marquee.svelte';
 	import Rings from '$lib/components/Rings.svelte';
+	import { images, artworks } from '$lib/data/artworks';
 	import { tools } from '$lib/data/tools';
+
+	const marqueeQuarter = Math.ceil(images.length / 4);
+	const firstMarqueeImages = images.slice(0, marqueeQuarter);
+	const secondMarqueeImages = images.slice(marqueeQuarter, marqueeQuarter * 2);
+	const thirdMarqueeImages = images.slice(marqueeQuarter * 2, marqueeQuarter * 3);
+	const fourthMarqueeImages = images.slice(marqueeQuarter * 3);
 
 	let artworksCount = $state(0);
 	let palettesCount = $state(0);
@@ -53,12 +60,16 @@
 		<Figure
 			cn="lg:hidden opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 			img={{
-				src: '/images/samson-mocked-jan-steen-c1670.webp',
+				src: artworks[0].imageSrc,
 				width: 1023,
 				height: 724,
 				loading: 'eager'
 			}}
-			artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
+			artwork={{
+				title: artworks[0].title,
+				artist: artworks[0].artistName,
+				date: artworks[0].displayDate
+			}}
 		/>
 
 		<p
@@ -80,12 +91,16 @@
 	<Figure
 		cn="hidden lg:block lg:my-auto xl:col-span-2 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 		img={{
-			src: '/images/samson-mocked-jan-steen-c1670.webp',
+			src: artworks[0].imageSrc,
 			width: 1023,
 			height: 724,
 			loading: 'eager'
 		}}
-		artwork={{ title: 'Samson Mocked', artist: 'Jan Steen', date: 'c. 1670' }}
+		artwork={{
+			title: artworks[0].title,
+			artist: artworks[0].artistName,
+			date: artworks[0].displayDate
+		}}
 	/>
 </section>
 
@@ -172,7 +187,7 @@
 		<div
 			class="w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:mx-auto sm:size-80 lg:mx-0"
 		>
-			<ImageBurst images={['/images/repose-john-white-alexander-1895.webp']} />
+			<ImageBurst spawnInterval={300} maxVisible={20} images={images.slice(0, 12)} />
 		</div>
 
 		<h2
@@ -269,54 +284,51 @@
 			</div>
 		</div>
 
-		<div class="sticky top-15 self-start lg:hidden">
+		<div class="sticky top-15 flex gap-15 self-start lg:hidden">
 			<Marquee
-				cn="h-100 lg:h-150"
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				speed={5}
 				orientation="vertical"
 				itemWidth="15rem"
-				images={[
-					'/images/samson-mocked-jan-steen-c1670.webp',
-					'/images/repose-john-white-alexander-1895.webp',
-					'/images/study-in-black-and-green.webp'
-				]}
-				secondImages={[
-					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
-					'/images/study-in-black-and-green.webp',
-					'/images/repose-john-white-alexander-1895.webp'
-				]}
+				images={firstMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				speed={5}
+				orientation="vertical"
+				itemWidth="15rem"
+				images={secondMarqueeImages}
 			/>
 		</div>
 
 		<div class="sticky top-15 hidden gap-15 self-start lg:flex 2xl:col-span-2" use:inView>
 			<Marquee
-				cn="h-100 lg:h-150"
+				cn="h-100 min-w-0 flex-1 lg:h-150"
 				orientation="vertical"
 				itemWidth="15rem"
-				images={[
-					'/images/samson-mocked-jan-steen-c1670.webp',
-					'/images/repose-john-white-alexander-1895.webp',
-					'/images/study-in-black-and-green.webp'
-				]}
-				secondImages={[
-					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
-					'/images/study-in-black-and-green.webp',
-					'/images/repose-john-white-alexander-1895.webp'
-				]}
+				speed={5}
+				images={firstMarqueeImages}
 			/>
 			<Marquee
-				cn="h-100 lg:h-150"
+				cn="h-100 min-w-0 flex-1 lg:h-150"
 				orientation="vertical"
 				itemWidth="15rem"
-				images={[
-					'/images/samson-mocked-jan-steen-c1670.webp',
-					'/images/repose-john-white-alexander-1895.webp',
-					'/images/study-in-black-and-green.webp'
-				]}
-				secondImages={[
-					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
-					'/images/study-in-black-and-green.webp',
-					'/images/repose-john-white-alexander-1895.webp'
-				]}
+				speed={5}
+				images={secondMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={thirdMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={fourthMarqueeImages}
 			/>
 		</div>
 	</div>
@@ -370,17 +382,17 @@
 		</h2>
 
 		<Figure
-			cn="lg:hidden sm:h-150 sm:mx-auto"
+			cn="lg:hidden sm:h-150 sm:mx-auto opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 			img={{
-				src: '/images/bust-of-a-youth-francesco-mochi-1640.webp',
+				src: artworks[1].imageSrc,
 				width: 673,
 				height: 841,
 				loading: 'lazy'
 			}}
 			artwork={{
-				title: 'Bust of a Youth (perhaps Saint John the Baptist)',
-				artist: 'Francesco Mochi',
-				date: '1630-1640'
+				title: artworks[1].title,
+				artist: artworks[1].artistName,
+				date: artworks[1].displayDate
 			}}
 		/>
 

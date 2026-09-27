@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { inView } from '$lib/actions/in-view';
+	import { onMount } from 'svelte';
 
 	export interface MarqueeImage {
 		src: string;
@@ -8,7 +9,6 @@
 
 	interface MarqueeProps {
 		images: MarqueeImage[] | string[];
-		secondImages?: MarqueeImage[] | string[];
 		orientation?: 'horizontal' | 'vertical';
 		speed?: number;
 		gap?: string;
@@ -18,7 +18,6 @@
 
 	let {
 		images,
-		secondImages,
 		orientation = 'horizontal',
 		speed = 30,
 		gap = '1rem',
@@ -31,63 +30,57 @@
 			.map((image) => (typeof image === 'string' ? { src: image } : image))
 			.filter((image) => image.src);
 
-	const firstLine = $derived(normalizeImages(images));
-	const secondLine = $derived(normalizeImages(secondImages ?? images));
+	let setElement = $state<HTMLDivElement>();
+	let distance = $state(0);
+
+	const line = $derived(normalizeImages(images));
 	const classes = $derived(
 		`opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 marquee ${orientation} ${cn}`.trim()
 	);
 	const style = $derived(
-		`--marquee-duration: ${Math.max(1, speed)}s; --marquee-gap: ${gap}; --marquee-item-width: ${itemWidth};`
+		`--marquee-distance: -${distance}px; --marquee-duration: ${Math.max(1, speed * line.length)}s; --marquee-gap: ${gap}; --marquee-item-width: ${itemWidth};`
 	);
+
+	const updateDistance = () => {
+		if (!setElement) return;
+
+		distance =
+			orientation === 'vertical'
+				? setElement.getBoundingClientRect().height
+				: setElement.getBoundingClientRect().width;
+	};
+
+	onMount(() => {
+		updateDistance();
+
+		if (!setElement) return;
+		const resizeObserver = new ResizeObserver(updateDistance);
+		resizeObserver.observe(setElement);
+
+		return () => resizeObserver.disconnect();
+	});
 </script>
 
 <div class={classes} {style} use:inView={{ once: false }} aria-label="Scrolling artwork gallery">
-	{#if firstLine.length}
+	{#if line.length}
 		<div class="line">
-			<div class="track forward">
-				<div class="set">
-					{#each firstLine as image}
+			<div class="track">
+				<div class="set" bind:this={setElement}>
+					{#each line as image}
 						<img
 							src={image.src}
 							alt={image.alt ?? ''}
-							loading="lazy"
+							loading="eager"
 							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
 						/>
 					{/each}
 				</div>
 				<div class="set" aria-hidden="true">
-					{#each firstLine as image}
+					{#each line as image}
 						<img
 							src={image.src}
 							alt=""
-							loading="lazy"
-							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
-						/>
-					{/each}
-				</div>
-			</div>
-		</div>
-	{/if}
-
-	{#if secondLine.length}
-		<div class="line">
-			<div class="track reverse">
-				<div class="set">
-					{#each secondLine as image}
-						<img
-							src={image.src}
-							alt={image.alt ?? ''}
-							loading="lazy"
-							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
-						/>
-					{/each}
-				</div>
-				<div class="set" aria-hidden="true">
-					{#each secondLine as image}
-						<img
-							src={image.src}
-							alt=""
-							loading="lazy"
+							loading="eager"
 							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
 						/>
 					{/each}
@@ -105,7 +98,6 @@
 	.marquee {
 		display: flex;
 		overflow: hidden;
-		gap: var(--marquee-gap);
 		contain: content;
 	}
 
@@ -133,15 +125,12 @@
 		height: 100%;
 		display: flex;
 		justify-content: center;
-		overflow: hidden;
 	}
 
 	.track {
 		display: flex;
 		width: max-content;
-		animation-duration: var(--marquee-duration);
-		animation-timing-function: linear;
-		animation-iteration-count: infinite;
+		animation: marquee-horizontal var(--marquee-duration) linear infinite;
 		animation-play-state: paused;
 		will-change: transform;
 	}
@@ -164,6 +153,7 @@
 		flex-direction: column;
 		width: 100%;
 		align-items: center;
+		animation-name: marquee-vertical;
 	}
 
 	.vertical .set {
@@ -177,59 +167,23 @@
 		max-width: 100%;
 	}
 
-	.forward {
-		animation-name: marquee-forward;
-	}
-
-	.reverse {
-		animation-name: marquee-reverse;
-	}
-
-	@keyframes marquee-forward {
+	@keyframes marquee-horizontal {
 		from {
 			transform: translateX(0);
 		}
 
 		to {
-			transform: translateX(-50%);
+			transform: translateX(var(--marquee-distance));
 		}
 	}
 
-	@keyframes marquee-reverse {
-		from {
-			transform: translateX(-50%);
-		}
-
-		to {
-			transform: translateX(0);
-		}
-	}
-
-	.vertical .forward {
-		animation-name: marquee-up;
-	}
-
-	.vertical .reverse {
-		animation-name: marquee-down;
-	}
-
-	@keyframes marquee-up {
+	@keyframes marquee-vertical {
 		from {
 			transform: translateY(0);
 		}
 
 		to {
-			transform: translateY(-50%);
-		}
-	}
-
-	@keyframes marquee-down {
-		from {
-			transform: translateY(-50%);
-		}
-
-		to {
-			transform: translateY(0);
+			transform: translateY(var(--marquee-distance));
 		}
 	}
 
