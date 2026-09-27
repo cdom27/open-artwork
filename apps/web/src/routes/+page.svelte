@@ -5,18 +5,8 @@
 	import ImageBurst from '$lib/components/ImageBurst.svelte';
 	import Link from '$lib/components/Link.svelte';
 	import Marquee from '$lib/components/Marquee.svelte';
+	import Rings from '$lib/components/Rings.svelte';
 	import { tools } from '$lib/data/tools';
-
-	const createRings = (
-		count: number,
-		{ startTop = 80, topStep = 10, startSize = 50, sizeStep = 35 } = {}
-	) =>
-		Array.from({ length: count }, (_, index) => ({
-			top: startTop - index * topStep,
-			size: startSize + index * sizeStep
-		}));
-
-	const rings = createRings(18);
 
 	let artworksCount = $state(0);
 	let palettesCount = $state(0);
@@ -104,14 +94,7 @@
 	use:inView
 	onenterviewport={startCounters}
 >
-	<div class="absolute inset-0 flex items-center justify-center">
-		{#each rings as ring, i}
-			<div
-				class="absolute rounded-full border-2 border-bone-100 opacity-0 transition-opacity delay-[calc(var(--i)*5ms)] duration-600 group-[&.in-view]:opacity-100"
-				style={`--i: ${i}; top: ${ring.top}%; width: calc(${ring.size} * var(--spacing)); height: calc(${ring.size} * var(--spacing));`}
-			></div>
-		{/each}
-	</div>
+	<Rings amount={20} spacing={38} />
 
 	<div class="relative z-10 flex flex-col gap-5.5 sm:gap-7.5">
 		<h2
