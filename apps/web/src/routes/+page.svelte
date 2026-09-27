@@ -4,6 +4,7 @@
 	import Figure from '$lib/components/Figure.svelte';
 	import ImageBurst from '$lib/components/ImageBurst.svelte';
 	import Link from '$lib/components/Link.svelte';
+	import Marquee from '$lib/components/Marquee.svelte';
 	import { tools } from '$lib/data/tools';
 
 	const createRings = (
@@ -49,7 +50,7 @@
 </svelte:head>
 
 <section
-	class="group grid grid-cols-1 px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
+	class="group grid grid-cols-1 px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
 	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
@@ -99,7 +100,7 @@
 </section>
 
 <section
-	class="group relative overflow-clip px-2 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
+	class="group relative overflow-clip px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
 	use:inView
 	onenterviewport={startCounters}
 >
@@ -143,7 +144,7 @@
 	use:inView
 >
 	<div
-		class="group flex flex-col gap-5.5 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+		class="group flex flex-col gap-5.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
 		use:inView
 	>
 		<h2
@@ -182,36 +183,13 @@
 	</div>
 
 	<div
-		class="group flex flex-col gap-5.5 bg-bone-100 px-2 py-15 text-charcoal-900 [--burst-animation-state:paused] group-[&.in-view]:[--burst-animation-state:running] sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
+		class="group flex flex-col gap-5.5 bg-bone-100 px-6 py-15 text-charcoal-900 [--burst-animation-state:paused] group-[&.in-view]:[--burst-animation-state:running] sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
 		use:inView={{ once: false }}
 	>
 		<div
 			class="w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:mx-auto sm:size-80 lg:mx-0"
 		>
-			<ImageBurst
-				images={[
-					'/images/repose-john-white-alexander-1895.webp',
-					'/images/2/image.webp',
-					'/images/3/image.webp',
-					'/images/4/image.webp',
-					'/images/5/image.webp',
-					'/images/6/image.webp',
-					'/images/7/image.webp',
-					'/images/8/image.webp',
-					'/images/9/image.webp',
-					'/images/10/image.webp',
-					'/images/11/image.webp',
-					'/images/12/image.webp',
-					'/images/13/image.webp',
-					'/images/14/image.webp',
-					'/images/15/image.webp',
-					'/images/16/image.webp',
-					'/images/17/image.webp',
-					'/images/18/image.webp',
-					'/images/19/image.webp',
-					'/images/20/image.webp'
-				]}
-			/>
+			<ImageBurst images={['/images/repose-john-white-alexander-1895.webp']} />
 		</div>
 
 		<h2
@@ -251,7 +229,118 @@
 </section>
 
 <section
-	class="group grid grid-cols-1 bg-bone-100 px-2 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+	class="group flex flex-col gap-5.5 px-6 py-15 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:gap-20 xl:p-25 2xl:p-30"
+	use:inView
+>
+	<div class="grid grid-cols-1 gap-15 sm:grid-cols-2 lg:gap-20 xl:items-center 2xl:grid-cols-3">
+		<div class="flex flex-col gap-15 lg:gap-20">
+			<div class="flex flex-col gap-5.5 sm:gap-7.5">
+				<h2
+					class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Design resource and art gallery
+				</h2>
+				<h3
+					class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					A resource for curious people
+				</h3>
+				<p
+					class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Get a closer look at the details behind any artwork by extracting a variety color palette
+					compositions. Or upload your own image to generate a custom palette.
+				</p>
+
+				<div
+					class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 lg:flex-row"
+				>
+					<Link href="/gallery" variant="primary">Find color palettes</Link>
+					<Link href="/palette-generator" variant="secondary">Upload my own image</Link>
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-5.5 sm:gap-7.5">
+				<h2
+					class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Developer tools
+				</h2>
+				<h3
+					class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					A simple API for creative developers
+				</h3>
+				<p
+					class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Access artwork data, images, and metadata. Use it for research, personal projects,
+					education, or whatever your building.
+				</p>
+
+				<div
+					class=" flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
+				>
+					<Link href="/docs/introduction" variant="primary">Get a free API key</Link>
+				</div>
+			</div>
+		</div>
+
+		<div class="sticky top-15 self-start lg:hidden">
+			<Marquee
+				cn="h-100 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				images={[
+					'/images/samson-mocked-jan-steen-c1670.webp',
+					'/images/repose-john-white-alexander-1895.webp',
+					'/images/study-in-black-and-green.webp'
+				]}
+				secondImages={[
+					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
+					'/images/study-in-black-and-green.webp',
+					'/images/repose-john-white-alexander-1895.webp'
+				]}
+			/>
+		</div>
+
+		<div class="sticky top-15 hidden gap-15 self-start lg:flex 2xl:col-span-2" use:inView>
+			<Marquee
+				cn="h-100 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				images={[
+					'/images/samson-mocked-jan-steen-c1670.webp',
+					'/images/repose-john-white-alexander-1895.webp',
+					'/images/study-in-black-and-green.webp'
+				]}
+				secondImages={[
+					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
+					'/images/study-in-black-and-green.webp',
+					'/images/repose-john-white-alexander-1895.webp'
+				]}
+			/>
+			<Marquee
+				cn="h-100 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				images={[
+					'/images/samson-mocked-jan-steen-c1670.webp',
+					'/images/repose-john-white-alexander-1895.webp',
+					'/images/study-in-black-and-green.webp'
+				]}
+				secondImages={[
+					'/images/bust-of-a-youth-francesco-mochi-1640.webp',
+					'/images/study-in-black-and-green.webp',
+					'/images/repose-john-white-alexander-1895.webp'
+				]}
+			/>
+		</div>
+	</div>
+</section>
+
+<section
+	class="group grid grid-cols-1 bg-bone-100 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
 	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
@@ -262,7 +351,7 @@
 		</h2>
 
 		<ul
-			class="group grid grid-cols-1 gap-5.5 pt-5.5 sm:gap-7.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-10"
+			class="group grid grid-cols-1 gap-15 pt-5.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-20"
 			use:inView
 		>
 			{#each tools as tool}
@@ -287,7 +376,7 @@
 </section>
 
 <section
-	class="group grid grid-cols-1 bg-charcoal-900 px-2 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
+	class="group grid grid-cols-1 bg-charcoal-900 px-6 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
 	use:inView
 >
 	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
@@ -355,7 +444,7 @@
 	</div>
 
 	<Figure
-		cn="hidden lg:block h-full w-full"
+		cn="hidden lg:block h-full w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 		img={{
 			src: '/images/bust-of-a-youth-francesco-mochi-1640.webp',
 			width: 673,
