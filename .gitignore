@@ -27,5 +27,8 @@ vite.config.ts.timestamp-*
 # Logs
 *.log
 
+# Go files
+tmp
+
 # Editor settings
 .vscode/
