@@ -46,10 +46,11 @@ type Constituent struct {
 }
 
 type ConstituentWithRole struct {
-	Name        string
-	Bio         string
-	Nationality string
-	DateBegin   uint
-	DateEnd     uint
-	Role        string
+	Name        string `json:"name"`
+	Bio         string `json:"bio"`
+	Nationality string `json:"nationality"`
+	DateBegin   uint   `json:"dateBegin"`
+	DateEnd     uint   `json:"dateEnd"`
+	Role        string `json:"role"`
+	IsPrimary   bool   `json:"isPrimary"`
 }

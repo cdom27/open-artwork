@@ -23,7 +23,8 @@ func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ConstituentWithRol
 		constituents.nationality AS nationality,
 		constituents.date_begin AS date_begin,
 		constituents.date_end AS date_end,
-		artwork_constituents.role AS role
+		artwork_constituents.role AS role,
+		artwork_constituents.is_primary AS is_primary
 	`
 
 	if err := database.DB.Table("artwork_constituents").
