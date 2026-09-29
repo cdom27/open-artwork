@@ -7,30 +7,31 @@ import (
 
 // FindArtworkBySlug returns an artwork with given slug
 // and loads constituents
-func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.Constituent, error) {
+func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ConstituentWithRole, error) {
 	// TODO: Load color palettes
 
 	var artwork model.Artwork
-	var awConstituents []model.ArtworkConstituent
-	var constituents []model.Constituent
+	var constituents []model.ConstituentWithRole
 
 	if err := database.DB.Where("slug = ?", slug).First(&artwork).Error; err != nil {
 		return nil, nil, err
 	}
 
-	if err := database.DB.Where("artwork_id = ?", artwork.ID).Find(&awConstituents).Error; err != nil {
+	fields := `
+		constituents.name AS name,
+		constituents.bio AS bio,
+		constituents.nationality AS nationality,
+		constituents.date_begin AS date_begin,
+		constituents.date_end AS date_end,
+		artwork_constituents.role AS role
+	`
+
+	if err := database.DB.Table("artwork_constituents").
+		Select(fields).
+		Joins("INNER JOIN constituents ON constituents.id = artwork_constituents.constituent_id").
+		Where("artwork_constituents.artwork_id = ?", artwork.ID).
+		Find(&constituents).Error; err != nil {
 		return &artwork, nil, err
-	}
-
-	var constituentIDs []uint
-	for _, c := range awConstituents {
-		constituentIDs = append(constituentIDs, c.ConstituentID)
-	}
-
-	if len(constituentIDs) > 0 {
-		if err := database.DB.Where("id IN ?", constituentIDs).Find(&constituents).Error; err != nil {
-			return &artwork, nil, err
-		}
 	}
 
 	return &artwork, &constituents, nil
