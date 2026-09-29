@@ -25,3 +25,22 @@ type Artwork struct {
 	CreatedAt      time.Time      `gorm:"column:created_at"`
 	UpdatedAt      time.Time      `gorm:"column:updated_at"`
 }
+
+type ArtworkConstituent struct {
+	ArtworkID     uint      `gorm:"column:artwork_id;primaryKey"`
+	ConstituentID uint      `gorm:"column:constituent_id;primaryKey"`
+	Role          string    `gorm:"column:role"`
+	CreatedAt     time.Time `gorm:"column:created_at"`
+	UpdatedAt     time.Time `gorm:"column:updated_at"`
+}
+
+type Constituent struct {
+	ID          uint      `gorm:"primaryKey;column:id;autoIncrement;index:artwork_pkey,unique,type:btree"`
+	Name        string    `gorm:"column:name;not null"`
+	Bio         string    `gorm:"column:bio"`
+	Nationality string    `gorm:"column:nationality"`
+	DateBegin   uint      `gorm:"column:date_begin"`
+	DateEnd     uint      `gorm:"column:date_end"`
+	CreatedAt   time.Time `gorm:"column:created_at"`
+	UpdatedAt   time.Time `gorm:"column:updated_at"`
+}

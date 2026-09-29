@@ -8,7 +8,7 @@ import (
 )
 
 func artworkBySlug(c *gin.Context) {
-	artwork, err := database.FindArtworkBySlug(c.Param("slug"))
+	artwork, constituents, err := database.FindArtworkBySlug(c.Param("slug"))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
@@ -20,7 +20,7 @@ func artworkBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
 		"message": "Artwork found",
-		"data":    ToArtworkResponse(artwork),
+		"data":    ToArtworkResponse(artwork, constituents),
 	})
 }
 
