@@ -43,6 +43,7 @@ func artworkPreviews(c *gin.Context) {
 		params.ObjectType,
 		params.Medium,
 		params.Culture,
+		params.Q,
 	)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{

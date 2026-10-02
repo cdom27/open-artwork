@@ -1,8 +1,24 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"regexp"
+	"strings"
 
-func filterArtworks(query *gorm.DB, from, to *int64, objectType, medium, culture string) *gorm.DB {
+	"gorm.io/gorm"
+)
+
+var searchTokenPattern = regexp.MustCompile(`[\p{L}\p{N}]+`)
+
+const artworkSearchVector = `
+	setweight(to_tsvector('simple', coalesce(artworks.title, '')), 'A') ||
+	setweight(to_tsvector('simple', coalesce(array_to_string(artworks.tags, ' '), '')), 'B') ||
+	setweight(to_tsvector('simple', coalesce(artworks.object_type, '')), 'B') ||
+	setweight(to_tsvector('simple', concat_ws(' ', artworks.medium, artworks.culture, artworks.period, artworks.classification, artworks.department)), 'C')
+`
+
+const constituentSearchVector = `setweight(to_tsvector('simple', coalesce(constituents.name, '')), 'A')`
+
+func filterArtworks(query *gorm.DB, from, to *int64, objectType, medium, culture, search string) *gorm.DB {
 	if from != nil {
 		query = query.Where("date_end >= ?", *from)
 	}
@@ -19,7 +35,49 @@ func filterArtworks(query *gorm.DB, from, to *int64, objectType, medium, culture
 		query = query.Where("culture = ?", culture)
 	}
 
+	for _, term := range artworkSearchTerms(search) {
+		query = query.Where(`(
+			`+artworkSearchVector+` @@ to_tsquery('simple', ?)
+			OR EXISTS (
+				SELECT 1
+				FROM artwork_constituents
+				INNER JOIN constituents ON constituents.id = artwork_constituents.constituent_id
+				WHERE artwork_constituents.artwork_id = artworks.id
+					AND `+constituentSearchVector+` @@ to_tsquery('simple', ?)
+			)
+		)`, term, term)
+	}
+
 	return query
+}
+
+func artworkSearchTerms(search string) []string {
+	tokens := searchTokenPattern.FindAllString(strings.ToLower(search), -1)
+	terms := make([]string, len(tokens))
+	for i, token := range tokens {
+		terms[i] = token + ":*"
+	}
+
+	return terms
+}
+
+func orderArtworks(query *gorm.DB, sort, search string) *gorm.DB {
+	terms := artworkSearchTerms(search)
+	if sort != "relevance" || len(terms) == 0 {
+		return query.Order(artworkOrder(sort))
+	}
+
+	searchQuery := strings.Join(terms, " & ")
+	return query.Select(`artworks.*, (
+		ts_rank_cd((`+artworkSearchVector+`), to_tsquery('simple', ?)) +
+		COALESCE((
+			SELECT MAX(ts_rank_cd(`+constituentSearchVector+`, to_tsquery('simple', ?)))
+			FROM artwork_constituents
+			INNER JOIN constituents ON constituents.id = artwork_constituents.constituent_id
+			WHERE artwork_constituents.artwork_id = artworks.id
+		), 0)
+	) AS search_rank`, searchQuery, searchQuery).
+		Order("search_rank DESC, artworks.id DESC")
 }
 
 func artworkOrder(sort string) string {

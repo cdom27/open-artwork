@@ -39,20 +39,20 @@ func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ConstituentWithRol
 
 // FindArtworks returns a set of results for condensed artwork data
 // with pagination info (hasMore, totalResults, etc.)
-func FindArtworks(sort string, page, pageSize int, from, to *int64, objectType, medium, culture string) (*model.PreviewsData, error) {
+func FindArtworks(sort string, page, pageSize int, from, to *int64, objectType, medium, culture, search string) (*model.PreviewsData, error) {
 	var artworks []model.Artwork
 	var constituents []model.ConstituentPreview
 	var totalResults int64
 
-	if err := filterArtworks(database.DB.Model(&model.Artwork{}), from, to, objectType, medium, culture).Count(&totalResults).Error; err != nil {
+	if err := filterArtworks(database.DB.Model(&model.Artwork{}), from, to, objectType, medium, culture, search).Count(&totalResults).Error; err != nil {
 		return nil, err
 	}
 
-	if err := filterArtworks(database.DB.Model(&model.Artwork{}), from, to, objectType, medium, culture).
+	artworkQuery := filterArtworks(database.DB.Model(&model.Artwork{}), from, to, objectType, medium, culture, search).
 		Limit(pageSize).
-		Offset((page - 1) * pageSize).
-		Order(artworkOrder(sort)).
-		Find(&artworks).Error; err != nil {
+		Offset((page - 1) * pageSize)
+
+	if err := orderArtworks(artworkQuery, sort, search).Find(&artworks).Error; err != nil {
 		return nil, err
 	}
 
