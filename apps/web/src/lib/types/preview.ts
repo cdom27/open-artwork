@@ -5,3 +5,11 @@ export type Preview = {
 	primaryArtistName: string;
 	imageUrl: string;
 };
+
+export type PreviewPage = {
+	artworks: Preview[];
+	totalResults: number;
+	pageSize: number;
+	page: number;
+	hasMore: boolean;
+};
