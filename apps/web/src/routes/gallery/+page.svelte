@@ -24,10 +24,10 @@
 </script>
 
 <svelte:head>
-	<title>Gallery - Open Artwork</title>
+	<title>Gallery | Open Artwork</title>
 	<meta
 		name="description"
-		content="Open Artwork is an open art data project for exploring artists, artworks, metadata, images, and color palettes. It is primarily a portfolio and learning project for exploring frontend development, backend architecture, and image-processing work."
+		content="Explore thousands of public domain artworks from museum collections around the world. Discover artists, art movements, historical works, and inspiration for your next creative project."
 	/>
 </svelte:head>
 
@@ -39,12 +39,14 @@
 		<h1
 			class="translate-y-5 text-5xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 md:text-6xl"
 		>
-			Gallery
+			Search art
 		</h1>
+
 		<p
-			class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:w-1/2"
 		>
-			Lorem Ipsum - Search Art
+			Explore thousands of public domain artworks from museums and collections around the world.
+			Explore different periods and mediums, and find inspiration for your next creative project.
 		</p>
 	</div>
 

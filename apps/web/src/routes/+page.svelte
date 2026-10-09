@@ -42,7 +42,7 @@
 	<title>Open Artwork</title>
 	<meta
 		name="description"
-		content="Open Artwork is an open art data project for exploring artists, artworks, metadata, images, and color palettes. It is primarily a portfolio and learning project for exploring frontend development, backend architecture, and image-processing work."
+		content="Discover and explore public domain artworks from museum collections around the world. Browse artists, explore art history, and find artwork and color palettes for your next creative project."
 	/>
 </svelte:head>
 
