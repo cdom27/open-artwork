@@ -38,6 +38,10 @@
 	--color-bone-50: #f4f3f1;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
 :root {
 	font-size: 0.875rem;
 	font-weight: 500;
