@@ -70,7 +70,7 @@
 						<img
 							src={image.src}
 							alt={image.alt ?? ''}
-							loading="eager"
+							loading="lazy"
 							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
 						/>
 					{/each}
@@ -80,7 +80,7 @@
 						<img
 							src={image.src}
 							alt=""
-							loading="eager"
+							loading="lazy"
 							class="block h-auto max-w-[80vw] flex-none rounded-sm object-center"
 						/>
 					{/each}

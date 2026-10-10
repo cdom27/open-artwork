@@ -22,7 +22,7 @@
 
 		<div class="flex size-full">
 			<img
-				src="/images/repose-john-white-alexander-1895.webp"
+				src="/images/content/repose-john-white-alexander-1895.webp"
 				width="799"
 				height="347"
 				loading="lazy"

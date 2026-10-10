@@ -63,7 +63,8 @@
 				src: artworks[0].imageSrc,
 				width: 1023,
 				height: 724,
-				loading: 'eager'
+				loading: 'eager',
+				fetchpriority: 'high'
 			}}
 			artwork={{
 				title: artworks[0].title,
@@ -94,7 +95,8 @@
 			src: artworks[0].imageSrc,
 			width: 1023,
 			height: 724,
-			loading: 'eager'
+			loading: 'eager',
+			fetchpriority: 'high'
 		}}
 		artwork={{
 			title: artworks[0].title,
@@ -441,15 +443,15 @@
 	<Figure
 		cn="hidden lg:block h-full w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 		img={{
-			src: '/images/bust-of-a-youth-francesco-mochi-1640.webp',
+			src: artworks[1].imageSrc,
 			width: 673,
 			height: 841,
 			loading: 'lazy'
 		}}
 		artwork={{
-			title: 'Bust of a Youth (perhaps Saint John the Baptist)',
-			artist: 'Francesco Mochi',
-			date: '1630-1640'
+			title: artworks[1].title,
+			artist: artworks[1].artistName,
+			date: artworks[1].displayDate
 		}}
 	/>
 </section>
