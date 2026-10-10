@@ -21,7 +21,7 @@ export const artworks = [
 ];
 
 export const images = [
-	'/images/marquee/repose-john-white-alexander-1895.webp',
+	'/images/repose-john-white-alexander-1895.webp',
 	'/images/marquee/study-in-black-and-green.webp',
 	'/images/marquee/potpourri-vase.webp',
 	'/images/marquee/processional-cross-1460.webp',
