@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { fly, scale } from 'svelte/transition';
 	import { inView } from '$lib/actions/in-view';
 	import Button from '$lib/components/Button.svelte';
 	import Figure from '$lib/components/Figure.svelte';
@@ -7,6 +8,7 @@
 	import type { PreviewPage } from '$lib/types/preview';
 
 	let { data }: { data: PreviewPage } = $props();
+	let sortOpen = $state(false);
 
 	const totalPages = $derived(Math.ceil(data.totalResults / data.pageSize));
 	const paginationPages = $derived.by(() => {
@@ -16,10 +18,42 @@
 		return Array.from({ length: pageCount }, (_, index) => firstPage + index);
 	});
 
+	const sortOptions = [
+		{ value: 'relevance', label: 'Relevance' },
+		{ value: 'title', label: 'Title' },
+		{ value: 'newest', label: 'Newest' },
+		{ value: 'oldest', label: 'Oldest' },
+		{ value: 'artistAsc', label: 'Artist (A–Z)' },
+		{ value: 'artistDesc', label: 'Artist (Z–A)' }
+	] as const;
+
+	const selectedSort = $derived(
+		sortOptions.find((option) => option.value === page.url.searchParams.get('sort')) ??
+			sortOptions[0]
+	);
+
+	const hrefWithParams = (searchParams: URLSearchParams) => {
+		const query = searchParams.toString();
+		return `${page.url.pathname}${query ? `?${query}` : ''}${page.url.hash}`;
+	};
+
 	const pageHref = (targetPage: number) => {
 		const searchParams = new URLSearchParams(page.url.searchParams);
 		searchParams.set('page', String(targetPage));
-		return `${page.url.pathname}?${searchParams.toString()}${page.url.hash}`;
+		return hrefWithParams(searchParams);
+	};
+
+	const sortHref = (sort: (typeof sortOptions)[number]['value']) => {
+		const searchParams = new URLSearchParams(page.url.searchParams);
+
+		if (sort === 'relevance') {
+			searchParams.delete('sort');
+		} else {
+			searchParams.set('sort', sort);
+		}
+		searchParams.delete('page');
+
+		return hrefWithParams(searchParams);
 	};
 </script>
 
@@ -33,7 +67,7 @@
 
 <section
 	id="gallery"
-	class="flex min-h-screen flex-col px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:gap-20 xl:p-25 2xl:p-30"
+	class="relative flex min-h-screen flex-col gap-5.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:gap-20 xl:p-25 2xl:p-30"
 >
 	<div class="group flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto" use:inView>
 		<h1
@@ -50,7 +84,8 @@
 		</p>
 	</div>
 
-	<p class="self-end">{data.totalResults} results</p>
+	<p class="self-end text-sm font-normal">{data.totalResults} results</p>
+
 	<div class="grid grid-cols-1 gap-15 md:grid-cols-2 lg:grid-cols-3 lg:gap-20 xl:grid-cols-4">
 		{#each data.artworks as preview}
 			<a href={`/artwork/${preview.slug}`} use:inView class="group">
@@ -139,6 +174,55 @@
 			</nav>
 
 			<Link href="#gallery" variant="tertiary" cn="mx-auto">Back to top</Link>
+		</div>
+	</div>
+
+	<div class="fixed inset-x-0 bottom-0 z-20 flex p-6">
+		<div class="flex max-w-[320px] items-center">
+			<details
+				class="group relative text-charcoal-900 shadow-sm"
+				bind:open={sortOpen}
+				onmouseleave={() => (sortOpen = false)}
+			>
+				<summary
+					class="flex cursor-pointer list-none items-center gap-2 rounded-sm bg-bone-100 px-2.5 py-1.5 transition-all duration-300 hover:rounded-lg active:rounded-xl [&::-webkit-details-marker]:hidden"
+				>
+					<span>{selectedSort.label}</span>
+					<svg
+						class="size-5.5 transition-transform duration-200 group-open:rotate-180"
+						viewBox="0 0 256 256"
+						aria-hidden="true"
+						><path
+							d="M208.49,80.49l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L128,132.69l63.17-63.52a8,8,0,0,1,11.32,11.32Z"
+						></path></svg
+					>
+				</summary>
+
+				{#if sortOpen}
+					<div
+						class="absolute bottom-full left-0 z-10 min-w-max origin-bottom-left pb-2.5"
+						in:scale={{ start: 0.9, duration: 160 }}
+					>
+						<ul
+							class="overflow-hidden rounded-sm bg-bone-100 py-1 shadow-xs"
+							aria-label="Sort artworks"
+						>
+							{#each sortOptions as option, i}
+								<li in:fly={{ y: 6, duration: 140, delay: i * 35 }}>
+									<a
+										href={sortHref(option.value)}
+										aria-current={option.value === selectedSort.value ? 'true' : undefined}
+										onclick={() => (sortOpen = false)}
+										class={`block px-3 py-2 text-sm transition-colors hover:bg-bone-200 active:bg-bone-300 ${option.value === selectedSort.value ? 'bg-charcoal-100 font-medium' : ''}`}
+									>
+										{option.label}
+									</a>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
+			</details>
 		</div>
 	</div>
 </section>
