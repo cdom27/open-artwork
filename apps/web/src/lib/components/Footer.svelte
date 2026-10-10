@@ -20,13 +20,13 @@
 
 		<div class="absolute inset-0 bg-linear-to-t from-charcoal-900/20 to-charcoal-900/0"></div>
 
-		<div class="flex size-full">
+		<div class="flex w-full lg:h-full">
 			<img
 				src="/images/content/repose-john-white-alexander-1895.webp"
 				width="799"
 				height="347"
 				loading="lazy"
-				class="rounded-sm object-cover"
+				class="block h-auto w-full rounded-sm object-cover lg:h-full"
 				alt="Repose by John White Alexander, 1895"
 			/>
 		</div>
