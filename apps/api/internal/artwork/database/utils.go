@@ -19,6 +19,8 @@ const artworkSearchVector = `
 const constituentSearchVector = `setweight(to_tsvector('simple', coalesce(constituents.name, '')), 'A')`
 
 func filterArtworks(query *gorm.DB, from, to *int64, objectType, medium, culture, search string) *gorm.DB {
+	query = query.Where("artworks.images IS NOT NULL AND ? = ANY(artworks.images)", "primary-small.webp")
+
 	if from != nil {
 		query = query.Where("date_end >= ?", *from)
 	}

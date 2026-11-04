@@ -3,7 +3,7 @@ export type Preview = {
 	slug: string;
 	dateDisplay: string;
 	primaryArtistName: string;
-	imageUrl: string;
+	thumbnailUrl: string;
 };
 
 export type PreviewPage = {

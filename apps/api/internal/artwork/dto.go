@@ -1,6 +1,9 @@
 package artwork
 
-import "api/internal/artwork/model"
+import (
+	"api/internal/artwork/model"
+	"fmt"
+)
 
 type ArtworkResponse struct {
 	Title          string                      `json:"title"`
@@ -25,7 +28,7 @@ type ArtworkPreview struct {
 	Slug              string `json:"slug"`
 	DateDisplay       string `json:"dateDisplay"`
 	PrimaryArtistName string `json:"primaryArtistName"`
-	ImageURL          string `json:"imageUrl"`
+	ThumbnailURL      string `json:"thumbnailUrl"`
 }
 type PreviewResponse struct {
 	Artworks     []ArtworkPreview `json:"artworks"`
@@ -105,6 +108,7 @@ func ToArtworkPreviews(pd *model.PreviewsData) PreviewResponse {
 			Slug:              artwork.Slug,
 			DateDisplay:       artwork.DateDisplay,
 			PrimaryArtistName: primaryName,
+			ThumbnailURL:      fmt.Sprintf("https://images.openart.work/images/%d/primary-small.webp", artwork.ID),
 		}
 	}
 

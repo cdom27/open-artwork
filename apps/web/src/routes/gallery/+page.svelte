@@ -104,7 +104,7 @@
 						artist: preview.primaryArtistName,
 						date: preview.dateDisplay
 					}}
-					img={{ src: preview.imageUrl }}
+					img={{ src: preview.thumbnailUrl }}
 					showCaption="never"
 				/>
 			</a>
