@@ -22,7 +22,6 @@ type Artwork struct {
 	Dimensions     string         `gorm:"column:dimensions"`
 	Creditline     string         `gorm:"column:credit_line"`
 	Tags           pq.StringArray `gorm:"column:tags;type:text[]"`
-	Images         pq.StringArray `gorm:"column:images;type:text[]"`
 	CreatedAt      time.Time      `gorm:"column:created_at"`
 	UpdatedAt      time.Time      `gorm:"column:updated_at"`
 }
