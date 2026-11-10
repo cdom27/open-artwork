@@ -33,8 +33,8 @@
 	};
 
 	const startCounters = () => {
-		animateCount(75, (value) => (artworksCount = value));
-		animateCount(375, (value) => (palettesCount = value));
+		animateCount(200, (value) => (artworksCount = value));
+		animateCount(800, (value) => (palettesCount = value));
 	};
 </script>
 
@@ -125,7 +125,7 @@
 				<div
 					class="flex translate-y-5 flex-col items-center gap-1.5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
 				>
-					<span class="text-5xl">{artworksCount}k+</span><span>artworks</span>
+					<span class="text-5xl">{artworksCount}K+</span><span>artworks</span>
 				</div>
 			</li>
 			<li>
