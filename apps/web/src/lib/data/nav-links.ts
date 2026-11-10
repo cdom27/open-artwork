@@ -1,7 +1,5 @@
 export const headerLinks = [
 	{ name: 'Gallery', href: '/gallery', subLinks: null },
-	{ name: 'Timeline', href: '/timeline' },
-	{ name: 'Color Trends', href: '/color-trends' },
 	{ name: 'API', href: '/docs', subLinks: null },
 	{ name: 'About', href: '/about', subLinks: null }
 ];
@@ -9,7 +7,12 @@ export const headerLinks = [
 export const footerLinks = [
 	{
 		name: 'Website',
-		links: [{ name: 'Home', href: '/' }, ...headerLinks]
+		links: [
+			{ name: 'Home', href: '/' },
+			...headerLinks,
+			{ name: 'Timeline', href: '/timeline', comingSoon: true },
+			{ name: 'Color Trends', href: '/color-trends', comingSoon: true }
+		]
 	},
 	{
 		name: 'Support',

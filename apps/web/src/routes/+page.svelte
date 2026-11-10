@@ -256,7 +256,7 @@
 					class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 lg:flex-row"
 				>
 					<Link href="/gallery" variant="primary">Find color palettes</Link>
-					<Link href="/palette-generator" variant="secondary">Upload my own image</Link>
+					<!-- <Link href="/palette-generator" variant="secondary">Upload my own image</Link> -->
 				</div>
 			</div>
 
@@ -364,6 +364,7 @@
 						title={tool.title}
 						description={tool.description}
 						link={tool.link}
+						comingSoon={'comingSoon' in tool && tool.comingSoon}
 						variant={tool.link.href === '#project-submission' ? 'tertiary' : 'primary'}
 					/>
 				</li>
@@ -411,10 +412,10 @@
 		>
 			<Link variant="secondary" href="/gallery">Explore artworks</Link>
 			<Link
-				variant="tertiary"
+				variant="disabled"
 				href="https://github.com/cdom27/open-artwork"
 				target="_blank"
-				rel="noopener noreferrer">View the data</Link
+				rel="noopener noreferrer">View the data <span class="text-stone-300">- soon</span></Link
 			>
 		</div>
 

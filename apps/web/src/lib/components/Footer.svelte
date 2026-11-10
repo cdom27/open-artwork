@@ -43,11 +43,17 @@
 							style="--i: {i + 1}"
 							class="underline-offset-4 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
 						>
-							<a
-								href={link.href}
-								class="translate-y-5 underline decoration-bone-100 decoration-2 transition-all duration-250 hover:decoration-charcoal-400 active:decoration-charcoal-600"
-								>{link.name}
-							</a>
+							{#if 'comingSoon' in link && link.comingSoon}
+								<span class="translate-y-5 text-charcoal-500">
+									{link.name} <span class="text-charcoal-400">- soon</span>
+								</span>
+							{:else}
+								<a
+									href={link.href}
+									class="translate-y-5 underline decoration-bone-100 decoration-2 transition-all duration-250 hover:decoration-charcoal-400 active:decoration-charcoal-600"
+									>{link.name}
+								</a>
+							{/if}
 						</li>
 					{/each}
 				</ul>

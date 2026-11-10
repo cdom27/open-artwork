@@ -7,7 +7,8 @@ export const tools = [
 		link: {
 			href: '/timeline',
 			label: 'Explore the timeline'
-		}
+		},
+		comingSoon: true
 	},
 	{
 		thumbnailSrc: '/images/content/samson-mocked-jan-steen-c1670.webp',
@@ -17,7 +18,8 @@ export const tools = [
 		link: {
 			href: '/color-trends',
 			label: 'View color trends'
-		}
+		},
+		comingSoon: true
 	},
 	{
 		thumbnailSrc: '/images/content/samson-mocked-jan-steen-c1670.webp',
