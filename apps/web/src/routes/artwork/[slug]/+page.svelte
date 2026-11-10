@@ -62,6 +62,7 @@
 
 	<Figure
 		cn="mx-auto w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:max-w-160"
+		imgCn="max-h-160 max-w-full"
 		img={{
 			src: data.fullUrl,
 			width: 1023,
@@ -229,6 +230,7 @@
 		<Figure
 			showCaption="never"
 			cn="w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 lg:hidden lg:max-w-160"
+			imgCn="max-h-160 max-w-full"
 			img={{
 				src: data.fullUrl,
 				width: 1023,
@@ -286,6 +288,7 @@
 
 	<Figure
 		cn="hidden w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 lg:block lg:max-w-160"
+		imgCn="max-h-160 max-w-full"
 		showCaption="never"
 		img={{
 			src: data.fullUrl,

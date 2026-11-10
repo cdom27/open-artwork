@@ -9,10 +9,11 @@
 			date: string;
 		};
 		cn?: string;
+		imgCn?: string;
 		showCaption?: 'always' | 'onHover' | 'never';
 	}
 
-	let { img, artwork, cn = '', showCaption = 'always' }: FigureProps = $props();
+	let { img, artwork, cn = '', imgCn = '', showCaption = 'always' }: FigureProps = $props();
 
 	const classes = $derived(`relative self-start ${cn}`.trim());
 </script>
@@ -21,7 +22,7 @@
 	<img
 		{...img}
 		alt={artwork.title + ' by ' + artwork.artist + ', ' + artwork.date}
-		class="size-full max-h-160 max-w-full rounded-sm object-contain"
+		class={`size-full rounded-sm object-contain ${imgCn}`}
 	/>
 	{#if showCaption !== 'never'}
 		<figcaption
