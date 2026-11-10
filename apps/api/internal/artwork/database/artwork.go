@@ -6,35 +6,64 @@ import (
 )
 
 // FindArtworkBySlug returns an artwork with given slug
-// and loads constituents
-func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ConstituentWithRole, error) {
-	// TODO: Load color palettes
+// and loads its constituents and palettes.
+func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ArtworkConstituentDetail, *[]model.ArtworkPaletteDetails, error) {
 
 	var artwork model.Artwork
-	var constituents []model.ConstituentWithRole
+	var constituents []model.ArtworkConstituentDetail
+	paletteDetails := make([]model.ArtworkPaletteDetails, 0)
 
 	if err := database.DB.Where("slug = ?", slug).First(&artwork).Error; err != nil {
-		return nil, nil, err
+		return nil, nil, nil, err
 	}
 
 	fields := `
 		constituents.name AS name,
-		constituents.bio AS bio,
-		constituents.nationality AS nationality,
-		constituents.date_begin AS date_begin,
-		constituents.date_end AS date_end,
-		artwork_constituents.role AS role
+		artwork_constituents.is_primary AS is_primary
 	`
 
 	if err := database.DB.Table("artwork_constituents").
 		Select(fields).
 		Joins("INNER JOIN constituents ON constituents.id = artwork_constituents.constituent_id").
+		Order("artwork_constituents.is_primary DESC, constituents.name ASC").
 		Where("artwork_constituents.artwork_id = ?", artwork.ID).
 		Find(&constituents).Error; err != nil {
-		return &artwork, nil, err
+		return &artwork, nil, nil, err
 	}
 
-	return &artwork, &constituents, nil
+	var palettes []model.ArtworkPalette
+	if err := database.DB.Table("artwork_palettes").
+		Where("artwork_id = ?", artwork.ID).
+		Order("id ASC").
+		Find(&palettes).Error; err != nil {
+		return &artwork, &constituents, nil, err
+	}
+
+	for _, palette := range palettes {
+		if !model.IsValidPaletteMood(palette.Mood) {
+			continue
+		}
+
+		var colors []model.ArtworkPaletteColor
+		if err := database.DB.Table("artwork_palette_colors").
+			Select("artwork_palette_colors.palette_id, artwork_palette_colors.position, colors.hex").
+			Joins("INNER JOIN colors ON colors.id = artwork_palette_colors.color_id").
+			Where("artwork_palette_colors.palette_id = ?", palette.ID).
+			Order("artwork_palette_colors.position ASC").
+			Find(&colors).Error; err != nil {
+			return &artwork, &constituents, nil, err
+		}
+
+		if len(colors) > 0 {
+			paletteDetails = append(paletteDetails, model.ArtworkPaletteDetails{
+				Mood:        palette.Mood,
+				Composition: palette.Composition,
+				Colors:      colors,
+			})
+		}
+	}
+
+	return &artwork, &constituents, &paletteDetails, nil
 }
 
 // FindArtworks returns a set of results for condensed artwork data

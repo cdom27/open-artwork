@@ -6,21 +6,30 @@ import (
 )
 
 type ArtworkResponse struct {
-	Title          string                      `json:"title"`
-	Slug           string                      `json:"slug"`
-	ObjectType     string                      `json:"objectType"`
-	Department     string                      `json:"department"`
-	Classification string                      `json:"classification"`
-	Culture        string                      `json:"culture"`
-	Period         string                      `json:"period"`
-	DateDisplay    string                      `json:"dateDisplay"`
-	DateBegin      int64                       `json:"dateBegin"`
-	DateEnd        int64                       `json:"dateEnd"`
-	Medium         string                      `json:"medium"`
-	Dimensions     string                      `json:"dimensions"`
-	Creditline     string                      `json:"creditLine"`
-	Constituents   []model.ConstituentWithRole `json:"constituents"`
-	Tags           []string                    `json:"tags"`
+	Title          string                   `json:"title"`
+	ObjectType     string                   `json:"objectType"`
+	Department     string                   `json:"department"`
+	Classification string                   `json:"classification"`
+	Culture        string                   `json:"culture"`
+	Period         string                   `json:"period"`
+	DateDisplay    string                   `json:"dateDisplay"`
+	Medium         string                   `json:"medium"`
+	Dimensions     string                   `json:"dimensions"`
+	Creditline     string                   `json:"creditLine"`
+	Tags           []string                 `json:"tags"`
+	Constituents   []string                 `json:"constituents"`
+	Palettes       []ArtworkPaletteResponse `json:"palettes"`
+	FullURL        string                   `json:"fullUrl"`
+}
+
+type ArtworkPaletteResponse struct {
+	Mood        model.PaletteMood      `json:"mood"`
+	Composition string                 `json:"composition"`
+	Colors      []ArtworkColorResponse `json:"colors"`
+}
+
+type ArtworkColorResponse struct {
+	Hex string `json:"hex"`
 }
 
 type ArtworkPreview struct {
@@ -62,7 +71,30 @@ type SearchParams struct {
 }
 
 // ToArtworkResponse assists in mapping DB struct into client response
-func ToArtworkResponse(a *model.Artwork, b *[]model.ConstituentWithRole) ArtworkResponse {
+func ToArtworkResponse(a *model.Artwork, constituents *[]model.ArtworkConstituentDetail, paletteDetails *[]model.ArtworkPaletteDetails) ArtworkResponse {
+	names := make([]string, len(*constituents))
+	for i, constituent := range *constituents {
+		names[i] = constituent.Name
+	}
+
+	tags := []string(a.Tags)
+	if tags == nil {
+		tags = []string{}
+	}
+
+	palettes := make([]ArtworkPaletteResponse, len(*paletteDetails))
+	for i, palette := range *paletteDetails {
+		colors := make([]ArtworkColorResponse, len(palette.Colors))
+		for j, color := range palette.Colors {
+			colors[j] = ArtworkColorResponse{Hex: color.Hex}
+		}
+		palettes[i] = ArtworkPaletteResponse{
+			Mood:        palette.Mood,
+			Composition: palette.Composition,
+			Colors:      colors,
+		}
+	}
+
 	return ArtworkResponse{
 		Title:          a.Title,
 		ObjectType:     a.ObjectType,
@@ -71,13 +103,13 @@ func ToArtworkResponse(a *model.Artwork, b *[]model.ConstituentWithRole) Artwork
 		Culture:        a.Culture,
 		Period:         a.Period,
 		DateDisplay:    a.DateDisplay,
-		DateBegin:      a.DateBegin,
-		DateEnd:        a.DateEnd,
 		Medium:         a.Medium,
 		Dimensions:     a.Dimensions,
 		Creditline:     a.Creditline,
-		Constituents:   *b,
-		Tags:           a.Tags,
+		Tags:           tags,
+		Constituents:   names,
+		Palettes:       palettes,
+		FullURL:        fmt.Sprintf("https://images.openart.work/images/%d/primary-full.webp", a.ID),
 	}
 }
 

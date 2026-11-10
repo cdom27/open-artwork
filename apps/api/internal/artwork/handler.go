@@ -2,14 +2,24 @@ package artwork
 
 import (
 	"api/internal/artwork/database"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func artworkBySlug(c *gin.Context) {
-	artwork, constituents, err := database.FindArtworkBySlug(c.Param("slug"))
+	artwork, constituents, paletteColors, err := database.FindArtworkBySlug(c.Param("slug"))
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"status":  http.StatusNotFound,
+				"message": "Artwork not found",
+			})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
 			"message": "Could not find artwork",
@@ -20,7 +30,7 @@ func artworkBySlug(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status":  http.StatusOK,
 		"message": "Artwork found",
-		"data":    ToArtworkResponse(artwork, constituents),
+		"data":    ToArtworkResponse(artwork, constituents, paletteColors),
 	})
 }
 

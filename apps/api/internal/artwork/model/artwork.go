@@ -35,6 +35,50 @@ type ConstituentWithRole struct {
 	Role        string `json:"role"`
 }
 
+type ArtworkConstituentDetail struct {
+	Name      string `gorm:"column:name"`
+	IsPrimary bool   `gorm:"column:is_primary"`
+}
+
+type PaletteMood string
+
+const (
+	PaletteMoodColorful PaletteMood = "Colorful"
+	PaletteMoodBright   PaletteMood = "Bright"
+	PaletteMoodMuted    PaletteMood = "Muted"
+	PaletteMoodDeep     PaletteMood = "Deep"
+	PaletteMoodDark     PaletteMood = "Dark"
+	PaletteMoodOriginal PaletteMood = "Original"
+)
+
+func IsValidPaletteMood(mood PaletteMood) bool {
+	switch mood {
+	case PaletteMoodColorful, PaletteMoodBright, PaletteMoodMuted,
+		PaletteMoodDeep, PaletteMoodDark, PaletteMoodOriginal:
+		return true
+	default:
+		return false
+	}
+}
+
+type ArtworkPalette struct {
+	ID          uint        `gorm:"column:id"`
+	Mood        PaletteMood `gorm:"column:mood"`
+	Composition string      `gorm:"column:composition"`
+}
+
+type ArtworkPaletteColor struct {
+	PaletteID uint   `gorm:"column:palette_id"`
+	Position  int    `gorm:"column:position"`
+	Hex       string `gorm:"column:hex"`
+}
+
+type ArtworkPaletteDetails struct {
+	Mood        PaletteMood
+	Composition string
+	Colors      []ArtworkPaletteColor
+}
+
 type ConstituentPreview struct {
 	ArtworkID uint   `json:"-"`
 	Name      string `json:"name"`
