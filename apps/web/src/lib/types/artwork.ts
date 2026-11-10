@@ -16,6 +16,7 @@ export type ArtworkDetails = {
 	creditLine: string;
 	palettes: ArtworkPalette[];
 	fullUrl: string;
+	relatedArtworks: ArtworkPreview[];
 };
 
 export type ArtworkPalette = {
@@ -24,4 +25,12 @@ export type ArtworkPalette = {
 	colors: {
 		hex: string;
 	}[];
+};
+
+export type ArtworkPreview = {
+	title: string;
+	slug: string;
+	dateDisplay: string;
+	primaryArtistName: string;
+	thumbnailUrl: string;
 };

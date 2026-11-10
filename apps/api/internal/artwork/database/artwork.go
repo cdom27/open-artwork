@@ -121,3 +121,87 @@ func FindArtworks(sort string, page, pageSize int, from, to *int64, objectType, 
 		HasMore:      hasMore,
 	}, nil
 }
+
+func FindRelatedArtworks(slug string, limit int) (*model.PreviewsData, error) {
+	var artwork model.Artwork
+	if err := database.DB.Where("slug = ?", slug).First(&artwork).Error; err != nil {
+		return nil, err
+	}
+
+	var primaryConstituentIDs []uint
+	if err := database.DB.Table("artwork_constituents").
+		Where("artwork_id = ? AND is_primary = ?", artwork.ID, true).
+		Pluck("constituent_id", &primaryConstituentIDs).Error; err != nil {
+		return nil, err
+	}
+
+	var artworks []model.Artwork
+	query := database.DB.Table("artworks AS related").
+		Select(`
+			related.*,
+			CASE WHEN related.classification = ? THEN 4 ELSE 0 END +
+			CASE WHEN related.department = ? THEN 2 ELSE 0 END +
+			CASE WHEN related.culture = ? THEN 1 ELSE 0 END AS relevance`,
+			artwork.Classification, artwork.Department, artwork.Culture,
+		).
+		Where("related.id <> ?", artwork.ID).
+		Where(
+			"related.classification = ? OR related.department = ? OR related.culture = ?",
+			artwork.Classification, artwork.Department, artwork.Culture,
+		)
+
+	if len(primaryConstituentIDs) > 0 {
+		query = query.Select(`
+			related.*,
+			CASE WHEN EXISTS (
+				SELECT 1 FROM artwork_constituents related_ac
+				WHERE related_ac.artwork_id = related.id
+				AND related_ac.is_primary = true
+				AND related_ac.constituent_id IN ?
+			) THEN 8 ELSE 0 END +
+			CASE WHEN related.classification = ? THEN 4 ELSE 0 END +
+			CASE WHEN related.department = ? THEN 2 ELSE 0 END +
+			CASE WHEN related.culture = ? THEN 1 ELSE 0 END AS relevance`,
+			primaryConstituentIDs,
+			artwork.Classification, artwork.Department, artwork.Culture,
+		).Where(`
+			related.classification = ? OR related.department = ? OR related.culture = ? OR EXISTS (
+				SELECT 1 FROM artwork_constituents related_ac
+				WHERE related_ac.artwork_id = related.id
+				AND related_ac.is_primary = true
+				AND related_ac.constituent_id IN ?
+			)`,
+			artwork.Classification, artwork.Department, artwork.Culture, primaryConstituentIDs,
+		)
+	}
+
+	if err := query.Order("relevance DESC, related.id DESC").Limit(limit).Find(&artworks).Error; err != nil {
+		return nil, err
+	}
+
+	constituents := make([]model.ConstituentPreview, 0)
+	for _, related := range artworks {
+		var current []model.ConstituentPreview
+		if err := database.DB.Table("artwork_constituents").
+			Select(`
+				artwork_constituents.artwork_id AS artwork_id,
+				constituents.name AS name,
+				artwork_constituents.is_primary AS is_primary
+			`).
+			Joins("INNER JOIN constituents ON constituents.id = artwork_constituents.constituent_id").
+			Where("artwork_constituents.artwork_id = ?", related.ID).
+			Find(&current).Error; err != nil {
+			return nil, err
+		}
+		constituents = append(constituents, current...)
+	}
+
+	return &model.PreviewsData{
+		Artworks:     artworks,
+		Constituents: constituents,
+		TotalResults: int64(len(artworks)),
+		PageSize:     limit,
+		Page:         1,
+		HasMore:      false,
+	}, nil
+}

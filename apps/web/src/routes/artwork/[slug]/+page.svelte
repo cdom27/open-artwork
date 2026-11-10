@@ -265,3 +265,33 @@
 		}}
 	/>
 </section>
+
+{#if data.relatedArtworks.length > 0}
+	<section
+		class="group flex flex-col gap-7.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+		use:inView
+	>
+		<h2
+			class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
+		>
+			Related artworks
+		</h2>
+
+		<div class="grid grid-cols-1 gap-15 sm:grid-cols-2 lg:grid-cols-3 lg:gap-20 xl:grid-cols-5">
+			{#each data.relatedArtworks as artwork}
+				<a href={`/artwork/${artwork.slug}`} use:inView class="group/card">
+					<Figure
+						cn="aspect-[3/2] w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 group-hover/card:scale-102"
+						artwork={{
+							title: artwork.title,
+							artist: artwork.primaryArtistName,
+							date: artwork.dateDisplay
+						}}
+						img={{ src: artwork.thumbnailUrl }}
+						showCaption="never"
+					/>
+				</a>
+			{/each}
+		</div>
+	</section>
+{/if}
