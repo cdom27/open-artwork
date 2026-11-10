@@ -61,7 +61,7 @@
 	</h1>
 
 	<Figure
-		cn="mx-auto w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:w-1/2"
+		cn="mx-auto w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:max-w-160"
 		img={{
 			src: data.fullUrl,
 			width: 1023,
@@ -228,7 +228,7 @@
 
 		<Figure
 			showCaption="never"
-			cn="lg:hidden opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+			cn="w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 lg:hidden lg:max-w-160"
 			img={{
 				src: data.fullUrl,
 				width: 1023,
@@ -285,7 +285,7 @@
 	</div>
 
 	<Figure
-		cn="hidden lg:block opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		cn="hidden w-fit max-w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 lg:block lg:max-w-160"
 		showCaption="never"
 		img={{
 			src: data.fullUrl,

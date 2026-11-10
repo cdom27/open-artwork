@@ -21,7 +21,7 @@
 	<img
 		{...img}
 		alt={artwork.title + ' by ' + artwork.artist + ', ' + artwork.date}
-		class="size-full rounded-sm object-contain"
+		class="size-full max-h-160 max-w-full rounded-sm object-contain"
 	/>
 	{#if showCaption !== 'never'}
 		<figcaption
