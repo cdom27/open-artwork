@@ -11,10 +11,12 @@
 	let { data }: PageProps = $props();
 	let copiedHex = $state<string | null>(null);
 	let moodOpen = $state(false);
+	let constituentsOpen = $state(false);
 
 	const artist = $derived(
 		data.creditLine.length > 95 ? `${data.creditLine.slice(0, 95)}...` : data.creditLine
 	);
+	const title = $derived(data.title.length > 95 ? `${data.title.slice(0, 95)}...` : data.title);
 	let selectedMood = $state<ArtworkMood>('Colorful');
 	const selectedPalette = $derived(
 		data.palettes.find((palette) => palette.mood === selectedMood) ?? data.palettes[0]
@@ -22,10 +24,6 @@
 	const primaryConstituent = $derived(data.constituents[0] ?? 'Unknown artist');
 	const additionalConstituents = $derived(Math.max(data.constituents.length - 1, 0));
 	const informationItems = $derived([
-		{
-			label: '',
-			value: `${primaryConstituent}${additionalConstituents > 0 ? ` +${additionalConstituents}` : ''}`
-		},
 		{ label: '', value: data.dateDisplay },
 		{ label: 'Medium', value: data.medium || 'Unknown' },
 		{ label: 'Classification', value: data.classification || 'Unknown' },
@@ -63,7 +61,7 @@
 	</h1>
 
 	<Figure
-		cn="opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 w-1/2 mx-auto"
+		cn="mx-auto w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:w-1/2"
 		img={{
 			src: data.fullUrl,
 			width: 1023,
@@ -72,7 +70,7 @@
 			fetchpriority: 'high'
 		}}
 		artwork={{
-			title: data.title,
+			title,
 			artist,
 			date: data.dateDisplay
 		}}
@@ -83,7 +81,7 @@
 	class="grid grid-cols-1 gap-5.5 px-6 py-15 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
 >
 	<div class="group flex flex-col gap-7.5" use:inView>
-		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+		<div class="flex flex-col gap-7.5 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
 			<h2
 				class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
 			>
@@ -145,23 +143,32 @@
 					<button
 						type="button"
 						style={`--i: ${i + 1}; background-color: ${color.hex}`}
-						class={`group/swatch relative min-h-20 flex-1 translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 hover:cursor-pointer ${getTextColor(color.hex)}`}
+						class={`group/swatch relative flex min-h-0 flex-1 translate-y-5 items-center justify-center opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 hover:cursor-pointer sm:min-h-20 ${getTextColor(color.hex)}`}
 						onclick={() => handleCopyColor(color.hex, () => showCopiedState(color.hex))}
 						aria-label={`Copy ${getDisplayHex(color.hex)} to clipboard`}
 					>
-						<span class="absolute inset-x-0 bottom-5 text-center text-sm"
-							>{getDisplayHex(color.hex)}</span
+						<span
+							class="absolute inset-0 flex items-center justify-center text-center text-sm sm:inset-x-0 sm:inset-y-auto sm:bottom-5"
 						>
+							{#if copiedHex === color.hex}
+								<span class="flex items-center gap-1 sm:hidden">
+									Copied <CheckIcon cn="size-4" />
+								</span>
+								<span class="hidden sm:inline">{getDisplayHex(color.hex)}</span>
+							{:else}
+								{getDisplayHex(color.hex)}
+							{/if}
+						</span>
 						{#if copiedHex === color.hex}
 							<span
-								class="pointer-events-none absolute inset-x-0 bottom-14 flex justify-center"
+								class="pointer-events-none absolute inset-x-0 bottom-[calc(50%+1.5rem)] hidden justify-center sm:bottom-14 sm:flex"
 								aria-label="Copied"
 							>
 								<CheckIcon cn="size-5" />
 							</span>
 						{:else}
 							<span
-								class="pointer-events-none absolute inset-x-0 bottom-14 flex justify-center opacity-0 transition-opacity group-hover/swatch:opacity-100"
+								class="pointer-events-none absolute inset-x-0 bottom-[calc(50%+1.5rem)] flex justify-center opacity-0 transition-opacity group-hover/swatch:opacity-100 sm:bottom-14"
 								aria-hidden="true"
 							>
 								<CopyIcon cn="size-4" />
@@ -220,6 +227,7 @@
 		</h2>
 
 		<Figure
+			showCaption="never"
 			cn="lg:hidden opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 			img={{
 				src: data.fullUrl,
@@ -236,9 +244,37 @@
 		/>
 
 		<div class="flex flex-col gap-1.5 pt-5.5">
+			<p
+				style="--i: 1"
+				class="translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				{primaryConstituent}
+				{#if additionalConstituents > 0}
+					<button
+						type="button"
+						class="cursor-pointer underline decoration-bone-100 decoration-2 underline-offset-4 transition-all duration-250 hover:decoration-charcoal-400 active:decoration-charcoal-600"
+						aria-expanded={constituentsOpen}
+						onclick={() => (constituentsOpen = !constituentsOpen)}
+					>
+						+{additionalConstituents}
+					</button>
+				{/if}
+			</p>
+
+			{#if constituentsOpen}
+				{#each data.constituents.slice(1) as constituent, i}
+					<p
+						style={`--i: ${i + 2}`}
+						class="translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+					>
+						{constituent}
+					</p>
+				{/each}
+			{/if}
+
 			{#each informationItems as item, i}
 				<p
-					style="--i: {i + 1}"
+					style={`--i: ${i + 2 + (constituentsOpen ? additionalConstituents : 0)}`}
 					class="translate-y-5 opacity-0 transition-all delay-[calc(var(--i)*80ms)] duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
 				>
 					{#if item.label}<span class="text-charcoal-600">{item.label} |</span>{/if}
@@ -249,7 +285,7 @@
 	</div>
 
 	<Figure
-		cn="opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		cn="hidden lg:block opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 		showCaption="never"
 		img={{
 			src: data.fullUrl,
@@ -267,21 +303,20 @@
 </section>
 
 {#if data.relatedArtworks.length > 0}
-	<section
-		class="group flex flex-col gap-7.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
-		use:inView
-	>
-		<h2
-			class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
-		>
-			Related artworks
-		</h2>
+	<section class="flex flex-col gap-7.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30">
+		<div class="group" use:inView>
+			<h2
+				class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
+			>
+				Related artworks
+			</h2>
+		</div>
 
 		<div class="grid grid-cols-1 gap-15 sm:grid-cols-2 lg:grid-cols-3 lg:gap-20 xl:grid-cols-5">
 			{#each data.relatedArtworks as artwork}
-				<a href={`/artwork/${artwork.slug}`} use:inView class="group/card">
+				<a href={`/artwork/${artwork.slug}`} use:inView class="group">
 					<Figure
-						cn="aspect-[3/2] w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 group-hover/card:scale-102"
+						cn="aspect-[3/2] w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 group-hover:scale-102"
 						artwork={{
 							title: artwork.title,
 							artist: artwork.primaryArtistName,
