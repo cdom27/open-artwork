@@ -85,7 +85,9 @@
 			class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 xl:flex-row"
 		>
 			<Link variant="primary" href="/gallery">Explore artworks</Link>
-			<Link variant="tertiary" href="/docs">Read API docs</Link>
+			<Link variant="disabled" href="/docs"
+				>Read API docs <span class="text-charcoal-500">- soon</span></Link
+			>
 		</div>
 	</div>
 
@@ -256,7 +258,9 @@
 					class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 lg:flex-row"
 				>
 					<Link href="/gallery" variant="primary">Find color palettes</Link>
-					<!-- <Link href="/palette-generator" variant="secondary">Upload my own image</Link> -->
+					<Link href="/palette-generator" variant="disabled"
+						>Upload my own image <span class="text-charcoal-500">- soon</span></Link
+					>
 				</div>
 			</div>
 
@@ -281,7 +285,9 @@
 				<div
 					class=" flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
 				>
-					<Link href="/docs/introduction" variant="primary">Get a free API key</Link>
+					<Link href="/docs/introduction" variant="disabled"
+						>Get a free API key <span class="text-charcoal-500">- soon</span></Link
+					>
 				</div>
 			</div>
 		</div>

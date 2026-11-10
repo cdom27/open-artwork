@@ -28,6 +28,7 @@ export const tools = [
 		link: {
 			href: '#project-submission',
 			label: 'How to submit your project'
-		}
+		},
+		comingSoon: true
 	}
 ];
