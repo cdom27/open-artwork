@@ -92,7 +92,7 @@
 	</div>
 
 	<Figure
-		cn="hidden lg:block lg:my-auto xl:col-span-2 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		cn="hidden lg:block lg:my-auto lg:max-w-3xl lg:justify-self-end xl:col-span-2 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
 		img={{
 			src: artworks[0].imageSrc,
 			width: 1023,

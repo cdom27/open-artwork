@@ -2,9 +2,9 @@
 export const artworks = [
 	{
 		title: 'Samson Mocked',
-		artistName: 'Jan Steen',
-		imageSrc: '/images/content/samson-mocked-jan-steen-c1670.webp',
-		displayDate: 'c. 1670'
+		artistName: 'Guercino (Giovanni Francesco Barbieri)',
+		imageSrc: '/images/content/samson-captured.webp',
+		displayDate: '1619'
 	},
 	{
 		title: 'Bust of a Youth (perhaps Saint John the Baptist)',
