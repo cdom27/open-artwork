@@ -1,7 +1,4 @@
-export const headerLinks = [
-	{ name: 'Gallery', href: '/gallery', subLinks: null },
-	{ name: 'About', href: '/about', subLinks: null }
-];
+export const headerLinks = [{ name: 'Gallery', href: '/gallery', subLinks: null }];
 
 export const footerLinks = [
 	{

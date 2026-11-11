@@ -13,8 +13,8 @@
 	class="flex flex-col gap-2.5 bg-charcoal-900 px-4 py-2.5 text-center font-normal text-bone-50 sm:px-10"
 >
 	<p>
-		This live version is a prototype showcasing the gallery and color extractions from artworks
-		processed so far.
+		This live version is a <span class="font-semibold underline underline-offset-4">demo</span> showcasing
+		the gallery and color extractions from artworks processed so far.
 	</p>
 	<p>
 		New data and fixes will arrive as they are processed. Discovery views, image processing tools,
