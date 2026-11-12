@@ -1,0 +1,464 @@
+<script lang="ts">
+	import { inView } from '$lib/actions/in-view';
+	import Card from '$lib/components/Card.svelte';
+	import Figure from '$lib/components/Figure.svelte';
+	import ImageBurst from '$lib/components/ImageBurst.svelte';
+	import Link from '$lib/components/Link.svelte';
+	import Marquee from '$lib/components/Marquee.svelte';
+	import Rings from '$lib/components/Rings.svelte';
+	import { images, artworks } from '$lib/data/artworks';
+	import { tools } from '$lib/data/tools';
+
+	const marqueeQuarter = Math.ceil(images.length / 4);
+	const firstMarqueeImages = images.slice(0, marqueeQuarter);
+	const secondMarqueeImages = images.slice(marqueeQuarter, marqueeQuarter * 2);
+	const thirdMarqueeImages = images.slice(marqueeQuarter * 2, marqueeQuarter * 3);
+	const fourthMarqueeImages = images.slice(marqueeQuarter * 3);
+
+	let artworksCount = $state(0);
+	let palettesCount = $state(0);
+
+	const animateCount = (target: number, update: (value: number) => void, duration = 1000) => {
+		const start = performance.now();
+
+		const tick = (now: number) => {
+			const progress = Math.min((now - start) / duration, 1);
+			const easedProgress = 1 - Math.pow(1 - progress, 3);
+			update(Math.round(target * easedProgress));
+
+			if (progress < 1) requestAnimationFrame(tick);
+		};
+
+		requestAnimationFrame(tick);
+	};
+
+	const startCounters = () => {
+		animateCount(200, (value) => (artworksCount = value));
+		animateCount(800, (value) => (palettesCount = value));
+	};
+</script>
+
+<svelte:head>
+	<title>Open Artwork</title>
+	<meta
+		name="description"
+		content="Discover and explore public domain artworks from museum collections around the world. Browse artists, explore art history, and find artwork and color palettes for your next creative project."
+	/>
+</svelte:head>
+
+<section
+	class="group grid grid-cols-1 px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:grid-cols-3 xl:p-25 2xl:p-30"
+	use:inView
+>
+	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
+		<h1
+			class="translate-y-5 text-5xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 md:text-6xl"
+		>
+			Art for<br /> a more open<br /> internet
+		</h1>
+
+		<Figure
+			cn="lg:hidden opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+			img={{
+				src: artworks[0].imageSrc,
+				width: 1023,
+				height: 724,
+				loading: 'eager',
+				fetchpriority: 'high'
+			}}
+			artwork={{
+				title: artworks[0].title,
+				artist: artworks[0].artistName,
+				date: artworks[0].displayDate
+			}}
+		/>
+
+		<p
+			class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Open Artwork is a growing archive of public domain artworks and metadata, with a clean
+			developer API and tools for exploring, remixing, and learning from the world&apos;s visual
+			culture.
+		</p>
+
+		<div
+			class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 xl:flex-row"
+		>
+			<Link variant="primary" href="/gallery">Explore artworks</Link>
+			<Link variant="disabled" href="/docs"
+				>Read API docs <span class="text-charcoal-500">- soon</span></Link
+			>
+		</div>
+	</div>
+
+	<Figure
+		cn="hidden lg:block lg:my-auto lg:max-w-3xl lg:justify-self-end xl:col-span-2 opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		img={{
+			src: artworks[0].imageSrc,
+			width: 1023,
+			height: 724,
+			loading: 'eager',
+			fetchpriority: 'high'
+		}}
+		artwork={{
+			title: artworks[0].title,
+			artist: artworks[0].artistName,
+			date: artworks[0].displayDate
+		}}
+	/>
+</section>
+
+<section
+	class="group relative overflow-clip px-6 py-15 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:p-25 2xl:p-30"
+	use:inView
+	onenterviewport={startCounters}
+>
+	<Rings amount={20} spacing={38} />
+
+	<div class="relative z-10 flex flex-col gap-5.5 sm:gap-7.5">
+		<h2
+			class="translate-y-5 text-center text-3xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 lg:text-4xl"
+		>
+			Built from the world's<br /> largest open art collections
+		</h2>
+
+		<ul class="flex flex-col gap-5.5 sm:mx-auto sm:flex-row sm:gap-7.5 lg:gap-15">
+			<li>
+				<div
+					class="flex translate-y-5 flex-col items-center gap-1.5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					<span class="text-5xl">{artworksCount}K+</span><span>artworks</span>
+				</div>
+			</li>
+			<li>
+				<div
+					class="flex translate-y-5 flex-col items-center gap-1.5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					<span class="text-5xl">{palettesCount}k+</span><span>color palettes</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<section
+	class="group relative flex flex-col overflow-clip bg-charcoal-900 text-bone-50 lg:grid lg:grid-cols-2 lg:gap-20"
+	use:inView
+>
+	<div
+		class="group flex flex-col gap-5.5 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+		use:inView
+	>
+		<h2
+			class="translate-y-5 text-charcoal-400 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			The problem
+		</h2>
+
+		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Scattered across institutions
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Inconsistent metadata
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				No unified API
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-400 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Paywalled access to public domain
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-480 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Slow, clunky interfaces
+			</li>
+		</ul>
+	</div>
+
+	<div
+		class="group flex flex-col gap-5.5 bg-bone-100 px-6 py-15 text-charcoal-900 [--burst-animation-state:paused] group-[&.in-view]:[--burst-animation-state:running] sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:my-4 lg:w-full lg:translate-x-80 lg:rounded-l-sm lg:transition-all lg:delay-80 lg:duration-400 lg:group-[&.in-view]:translate-x-0 xl:p-25 2xl:p-30"
+		use:inView={{ once: false }}
+	>
+		<div
+			class="w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100 sm:mx-auto sm:size-80 lg:mx-0"
+		>
+			<ImageBurst spawnInterval={300} maxVisible={20} images={images.slice(0, 12)} />
+		</div>
+
+		<h2
+			class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			The solution
+		</h2>
+
+		<ul class="flex flex-col gap-5.5 text-4xl font-normal sm:gap-7.5">
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				One unified archive
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Color & design resource
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Sharp and intuitive gallery
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-400 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Simple developer API
+			</li>
+			<li
+				class="translate-y-5 opacity-0 transition-all delay-480 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Clean, consistent metadata
+			</li>
+		</ul>
+	</div>
+</section>
+
+<section
+	class="group flex flex-col gap-5.5 px-6 py-15 sm:gap-7.5 sm:px-10 md:px-15 md:py-20 lg:gap-20 xl:p-25 2xl:p-30"
+	use:inView
+>
+	<div class="grid grid-cols-1 gap-15 sm:grid-cols-2 lg:gap-20 xl:items-center 2xl:grid-cols-3">
+		<div class="flex flex-col gap-15 lg:gap-20">
+			<div class="flex flex-col gap-5.5 sm:gap-7.5">
+				<h2
+					class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Design resource and art gallery
+				</h2>
+				<h3
+					class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					A resource for curious people
+				</h3>
+				<p
+					class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Get a closer look at the details behind any artwork by extracting a variety color palette
+					compositions. Or upload your own image to generate a custom palette.
+				</p>
+
+				<div
+					class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:gap-4 lg:flex-row"
+				>
+					<Link href="/gallery" variant="primary">Find color palettes</Link>
+					<Link href="/palette-generator" variant="disabled"
+						>Upload my own image <span class="text-charcoal-500">- soon</span></Link
+					>
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-5.5 sm:gap-7.5">
+				<h2
+					class="translate-y-5 text-charcoal-500 opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Developer tools
+				</h2>
+				<h3
+					class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					A simple API for creative developers
+				</h3>
+				<p
+					class="translate-y-5 opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+				>
+					Access artwork data, images, and metadata. Use it for research, personal projects,
+					education, or whatever your building.
+				</p>
+
+				<div
+					class=" flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
+				>
+					<Link href="/docs/introduction" variant="disabled"
+						>Get a free API key <span class="text-charcoal-500">- soon</span></Link
+					>
+				</div>
+			</div>
+		</div>
+
+		<div class="sticky top-15 flex gap-15 self-start lg:hidden">
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				speed={5}
+				orientation="vertical"
+				itemWidth="15rem"
+				images={firstMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				speed={5}
+				orientation="vertical"
+				itemWidth="15rem"
+				images={secondMarqueeImages}
+			/>
+		</div>
+
+		<div class="sticky top-15 hidden gap-15 self-start lg:flex 2xl:col-span-2" use:inView>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={firstMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={secondMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={thirdMarqueeImages}
+			/>
+			<Marquee
+				cn="h-100 min-w-0 flex-1 lg:h-150"
+				orientation="vertical"
+				itemWidth="15rem"
+				speed={5}
+				images={fourthMarqueeImages}
+			/>
+		</div>
+	</div>
+</section>
+
+<section
+	class="group grid grid-cols-1 bg-bone-100 px-6 py-15 sm:px-10 md:px-15 md:py-20 xl:p-25 2xl:p-30"
+	use:inView
+>
+	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
+		<h2
+			class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Other ways to explore
+		</h2>
+
+		<ul
+			class="group grid grid-cols-1 gap-15 pt-5.5 md:grid-cols-2 lg:grid-cols-3 lg:gap-20"
+			use:inView
+		>
+			{#each tools as tool}
+				<li>
+					<Card
+						thumbnail={{
+							src: tool.thumbnailSrc,
+							width: 1023,
+							height: 724,
+							alt: 'Placeholder image',
+							loading: 'lazy'
+						}}
+						title={tool.title}
+						description={tool.description}
+						link={tool.link}
+						comingSoon={'comingSoon' in tool && tool.comingSoon}
+						variant={tool.link.href === '#project-submission' ? 'tertiary' : 'primary'}
+					/>
+				</li>
+			{/each}
+		</ul>
+	</div>
+</section>
+
+<section
+	class="group grid grid-cols-1 bg-charcoal-900 px-6 py-15 text-stone-50 sm:px-10 md:px-15 md:py-20 lg:grid-cols-2 lg:gap-20 xl:gap-30 xl:p-25 2xl:gap-100 2xl:p-30"
+	use:inView
+>
+	<div class="flex flex-col gap-5.5 sm:gap-7.5 lg:my-auto">
+		<h2
+			class="translate-y-5 text-4xl font-normal opacity-0 transition-all delay-80 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Download the data
+		</h2>
+
+		<Figure
+			cn="lg:hidden sm:h-150 sm:mx-auto opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+			img={{
+				src: artworks[1].imageSrc,
+				width: 673,
+				height: 841,
+				loading: 'lazy'
+			}}
+			artwork={{
+				title: artworks[1].title,
+				artist: artworks[1].artistName,
+				date: artworks[1].displayDate
+			}}
+		/>
+
+		<p
+			class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+		>
+			Our dataset of public domain artwork metadata is available for anyone to use. Download the
+			full dataset as CSV from our GitHub repository. Images and media files themselves are not
+			included due to their size.
+		</p>
+
+		<div
+			class="flex translate-y-5 flex-col gap-2.5 pt-5.5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100 sm:flex-row sm:gap-4"
+		>
+			<Link variant="secondary" href="/gallery">Explore artworks</Link>
+			<Link
+				variant="disabled"
+				href="https://github.com/cdom27/open-artwork"
+				target="_blank"
+				rel="noopener noreferrer">View the data <span class="text-stone-300">- soon</span></Link
+			>
+		</div>
+
+		<div class="flex flex-col gap-5.5 pt-10 sm:gap-5.5">
+			<h3
+				class="translate-y-5 text-3xl font-normal opacity-0 transition-all delay-160 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Notes for users
+			</h3>
+			<p
+				class="translate-y-5 opacity-0 transition-all delay-240 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				The collection is built from public-domain artworks and metadata made available through
+				open-access collections, APIs, and datasets. Open Artwork does not claim ownership of the
+				underlying artworks or source data.
+			</p>
+			<p
+				class="translate-y-5 opacity-0 transition-all delay-320 duration-400 group-[&.in-view]:translate-y-0 group-[&.in-view]:opacity-100"
+			>
+				Rights information is provided by the source institution. We encourage users to credit the
+				appropriate institution and source for each image.
+			</p>
+		</div>
+	</div>
+
+	<Figure
+		cn="hidden lg:block h-full w-full opacity-0 transition-all duration-400 group-[&.in-view]:opacity-100"
+		img={{
+			src: artworks[1].imageSrc,
+			width: 673,
+			height: 841,
+			loading: 'lazy'
+		}}
+		artwork={{
+			title: artworks[1].title,
+			artist: artworks[1].artistName,
+			date: artworks[1].displayDate
+		}}
+	/>
+</section>
