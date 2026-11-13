@@ -6,7 +6,7 @@ import (
 )
 
 // FindArtworkBySlug returns an artwork with given slug
-// and loads its constituents and palettes
+// and loads its constituents and palettes.
 func FindArtworkBySlug(slug string) (*model.Artwork, *[]model.ArtworkConstituentDetail, *[]model.ArtworkPaletteDetails, error) {
 
 	var artwork model.Artwork
