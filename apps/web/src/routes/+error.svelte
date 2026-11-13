@@ -48,7 +48,7 @@
 					href="https://www.poetryfoundation.org/poems/45521/i-wandered-lonely-as-a-cloud"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="hover:text-blue-600 hover:underline">I Wandered Lonely as a Cloud (1807/1815)</a
+					class="hover:text-blue-600 hover:underline">I Wandered Lonely as a Cloud</a
 				></cite
 			>
 		</figcaption>
