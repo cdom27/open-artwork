@@ -5,14 +5,14 @@ import (
 	"api/internal/database"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
+	if err := godotenv.Load(".env"); err != nil && !os.IsNotExist(err) {
 		log.Fatal("Error loading .env file:", err)
 	}
 
@@ -27,8 +27,13 @@ func main() {
 
 	artwork.RouteV1(r)
 
-	err = r.Run()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	err := r.Run(":" + port)
 	if err != nil {
-		return
+		log.Fatal("Error starting server:", err)
 	}
 }
